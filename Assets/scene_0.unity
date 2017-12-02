@@ -1257,7 +1257,7 @@ GameObject:
   - component: {fileID: 454010656}
   - component: {fileID: 454010655}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1760,7 +1760,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 512427139}
   m_LocalRotation: {x: -0.8492573, y: -0, z: -0, w: 0.5279792}
-  m_LocalPosition: {x: -8.39, y: 17.9, z: 23.83}
+  m_LocalPosition: {x: -7.87, y: 17.9, z: 33.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4113,13 +4113,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1559139553}
-  m_LocalRotation: {x: -0.6769687, y: 0.20423864, z: 0.20423864, w: 0.6769687}
+  m_LocalRotation: {x: -0.4600601, y: -0.5369774, z: -0.5369774, w: 0.4600601}
   m_LocalPosition: {x: -19.861898, y: 4.8148136, z: -0.53852296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 278518414}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 33.577003}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -98.823006}
 --- !u!65 &1559139557
 BoxCollider:
   m_ObjectHideFlags: 0
