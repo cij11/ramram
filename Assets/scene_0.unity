@@ -295,6 +295,11 @@ Prefab:
       propertyPath: m_Name
       value: Car-Red
       objectReference: {fileID: 0}
+    - target: {fileID: 23691388575876072, guid: 27cafc9c6d294954992362c9f8a20ad4,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a33b1fe791722749b498c77427257ba, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 27cafc9c6d294954992362c9f8a20ad4, type: 2}
   m_IsPrefabParent: 0
@@ -444,7 +449,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973033981626978, guid: 27cafc9c6d294954992362c9f8a20ad4, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114510049406791268, guid: 27cafc9c6d294954992362c9f8a20ad4,
         type: 2}
@@ -455,6 +460,21 @@ Prefab:
       propertyPath: m_Name
       value: Car-Blue
       objectReference: {fileID: 0}
+    - target: {fileID: 23905199777537556, guid: 27cafc9c6d294954992362c9f8a20ad4,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a4beb7fc3fa06b4c8dfd1562b21deab, type: 2}
+    - target: {fileID: 23905199777537556, guid: 27cafc9c6d294954992362c9f8a20ad4,
+        type: 2}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a4beb7fc3fa06b4c8dfd1562b21deab, type: 2}
+    - target: {fileID: 23905199777537556, guid: 27cafc9c6d294954992362c9f8a20ad4,
+        type: 2}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a4beb7fc3fa06b4c8dfd1562b21deab, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 27cafc9c6d294954992362c9f8a20ad4, type: 2}
   m_IsPrefabParent: 0
