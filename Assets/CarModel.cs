@@ -41,7 +41,7 @@ public class CarModel : MonoBehaviour {
             }
 
             //If player presses turn counter-clockwise
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.D))
             {
                 //Check that the current speed is greater than the maximum negative speed.
                 //Do not let the car turn more negatively if it is already turning at its maximum negative speed.
@@ -52,7 +52,7 @@ public class CarModel : MonoBehaviour {
             }
 
             //If the player presses turn clockwise
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.A))
             {
                 //Make the car spin clockwise if it is not already spinning at its maximum clockwise speed
                 if (getTurnSpeed() < maxTurnSpeed)
@@ -73,7 +73,7 @@ public class CarModel : MonoBehaviour {
             {
                 body.AddForce(body.transform.up * -enginePower);
             }
-            if (Input.GetKey(KeyCode.Keypad4))
+            if (Input.GetKey(KeyCode.Keypad6))
             {
                 if (getTurnSpeed() > -maxTurnSpeed)
                 {
@@ -81,7 +81,7 @@ public class CarModel : MonoBehaviour {
                 }
             }
 
-            if (Input.GetKey(KeyCode.Keypad6))
+            if (Input.GetKey(KeyCode.Keypad4))
             {
                 if (getTurnSpeed() < maxTurnSpeed)
                 {
