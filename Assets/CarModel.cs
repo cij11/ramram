@@ -19,6 +19,11 @@ public class CarModel : MonoBehaviour {
     string accelerateAxis = "Accelerate0";
     string steerAxis = "Steer0";
 
+
+    float idleTimer = 0;
+    float idleLimit = 10;
+    bool isIdle = false;
+
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -33,6 +38,8 @@ public class CarModel : MonoBehaviour {
 
         accelerateAxis = "Accelerate" + playerNumber;
         steerAxis = "Steer" + playerNumber;
+
+        ManageIdle(accelerateAxis, steerAxis);
 
         if (Input.GetAxis(accelerateAxis) > 0)
         {
@@ -68,11 +75,27 @@ public class CarModel : MonoBehaviour {
 
     private void ManageRespawn()
     {
-        if (body.transform.position.y < lavaHeight)
+        if (body.transform.position.y < lavaHeight && !isIdle)
         {
             body.transform.position = new Vector3(0, 0, 5f);
          //   body.velocity = new Vector3(0f, 0f, 0f);
         }
+    }
+
+    private void ManageIdle(string accelerateAxis, string steerAxis)
+    {
+        if ((Input.GetAxis(accelerateAxis) != 0) || Input.GetAxis(steerAxis) != 0)
+        {
+            idleTimer = 0;
+        }
+        else
+        {
+            idleTimer += Time.deltaTime;
+        }
+
+        isIdle = (idleTimer > idleLimit);
+
+        print(isIdle);
     }
 
     public void PushCar(Vector3 pushDirection, float pushPower)
