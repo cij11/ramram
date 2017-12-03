@@ -48,9 +48,9 @@ public class CarModel : MonoBehaviour {
         {
             //Check that the current speed is greater than the maximum negative speed.
             //Do not let the car turn more negatively if it is already turning at its maximum negative speed.
-            if (getTurnSpeed() > -maxTurnSpeed)
+            if (getTurnSpeed() < maxTurnSpeed)
             {
-                body.AddTorque(body.transform.forward * -turnPower);
+                body.AddTorque(body.transform.forward * turnPower);
             }
         }
 
@@ -58,9 +58,9 @@ public class CarModel : MonoBehaviour {
         if (Input.GetAxis(steerAxis) < 0)
         {
             //Make the car spin clockwise if it is not already spinning at its maximum clockwise speed
-            if (getTurnSpeed() < maxTurnSpeed)
+            if (getTurnSpeed() > -maxTurnSpeed)
             {
-                body.AddTorque(body.transform.forward * turnPower);
+                body.AddTorque(body.transform.forward * -turnPower);
             }
         }
 
