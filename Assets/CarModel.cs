@@ -16,6 +16,9 @@ public class CarModel : MonoBehaviour {
 
     float lavaHeight = -30f;
 
+    string accelerateAxis = "Accelerate0";
+    string steerAxis = "Steer0";
+
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -28,69 +31,39 @@ public class CarModel : MonoBehaviour {
         //Check if the car is below limits, then respawn
         ManageRespawn();
 
-        if (playerNumber == 0)
+        accelerateAxis = "Accelerate" + playerNumber;
+        steerAxis = "Steer" + playerNumber;
+
+        if (Input.GetAxis(accelerateAxis) > 0)
         {
-            if (Input.GetKey(KeyCode.W))
-            {
-                body.AddForce(body.transform.up * enginePower);
-            }
+            body.AddForce(body.transform.up * enginePower);
+        }
+        if (Input.GetAxis(accelerateAxis) < 0)
+        {
+            body.AddForce(body.transform.up * -enginePower);
+        }
 
-            if (Input.GetKey(KeyCode.S))
+        //If player presses turn counter-clockwise
+        if (Input.GetAxis(steerAxis) > 0)
+        {
+            //Check that the current speed is greater than the maximum negative speed.
+            //Do not let the car turn more negatively if it is already turning at its maximum negative speed.
+            if (getTurnSpeed() > -maxTurnSpeed)
             {
-                body.AddForce(body.transform.up * -enginePower);
-            }
-
-            //If player presses turn counter-clockwise
-            if (Input.GetKey(KeyCode.D))
-            {
-                //Check that the current speed is greater than the maximum negative speed.
-                //Do not let the car turn more negatively if it is already turning at its maximum negative speed.
-                if (getTurnSpeed() > -maxTurnSpeed)
-                {
-                    body.AddTorque(body.transform.forward * -turnPower);
-                }
-            }
-
-            //If the player presses turn clockwise
-            if (Input.GetKey(KeyCode.A))
-            {
-                //Make the car spin clockwise if it is not already spinning at its maximum clockwise speed
-                if (getTurnSpeed() < maxTurnSpeed)
-                {
-                    body.AddTorque(body.transform.forward * turnPower);
-                }
+                body.AddTorque(body.transform.forward * -turnPower);
             }
         }
 
-        if (playerNumber == 1)
+        //If the player presses turn clockwise
+        if (Input.GetAxis(steerAxis) < 0)
         {
-            if (Input.GetKey(KeyCode.Keypad8))
+            //Make the car spin clockwise if it is not already spinning at its maximum clockwise speed
+            if (getTurnSpeed() < maxTurnSpeed)
             {
-                body.AddForce(body.transform.up * enginePower);
-            }
-
-            if (Input.GetKey(KeyCode.Keypad5))
-            {
-                body.AddForce(body.transform.up * -enginePower);
-            }
-            if (Input.GetKey(KeyCode.Keypad6))
-            {
-                if (getTurnSpeed() > -maxTurnSpeed)
-                {
-                    body.AddTorque(body.transform.forward * -turnPower);
-                }
-            }
-
-            if (Input.GetKey(KeyCode.Keypad4))
-            {
-                if (getTurnSpeed() < maxTurnSpeed)
-                {
-                    body.AddTorque(body.transform.forward * turnPower);
-                }
+                body.AddTorque(body.transform.forward * turnPower);
             }
         }
 
-        
     }
 
     private void ManageRespawn()

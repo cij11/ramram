@@ -1958,7 +1958,7 @@ Prefab:
     - target: {fileID: 114510049406791268, guid: 27cafc9c6d294954992362c9f8a20ad4,
         type: 2}
       propertyPath: playerNumber
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1907426679236974, guid: 27cafc9c6d294954992362c9f8a20ad4, type: 2}
       propertyPath: m_Name
@@ -2416,7 +2416,7 @@ Prefab:
     - target: {fileID: 114510049406791268, guid: 27cafc9c6d294954992362c9f8a20ad4,
         type: 2}
       propertyPath: playerNumber
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1907426679236974, guid: 27cafc9c6d294954992362c9f8a20ad4, type: 2}
       propertyPath: m_Name
@@ -2513,7 +2513,7 @@ Prefab:
     - target: {fileID: 114510049406791268, guid: 27cafc9c6d294954992362c9f8a20ad4,
         type: 2}
       propertyPath: playerNumber
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1907426679236974, guid: 27cafc9c6d294954992362c9f8a20ad4, type: 2}
       propertyPath: m_Name
@@ -3942,7 +3942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f8e9fda2624eb48b318436cf3528bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
+  playerNumber: 0
 --- !u!54 &1170946670
 Rigidbody:
   m_ObjectHideFlags: 0
