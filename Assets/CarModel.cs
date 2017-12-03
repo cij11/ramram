@@ -6,9 +6,8 @@ public class CarModel : MonoBehaviour {
 
     Rigidbody body;
     Material mat;
-
-    public TextMesh scoreBoard;
-    int score = 0;
+    
+    public ScoreBoard scoreBoard;
 
     float enginePower = 30f;
     float turnPower = 9f;
@@ -31,10 +30,14 @@ public class CarModel : MonoBehaviour {
     float lastHitTimer = 0;
     float lastHitLimit = 15;
 
+    bool isStagedForRespawning = false;
+
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
         mat = GetComponent<Material>() as Material;
+
+        scoreBoard = FindObjectOfType<ScoreBoard>() as ScoreBoard;
 	}
 	
 	// Update is called once per frame
@@ -48,7 +51,6 @@ public class CarModel : MonoBehaviour {
 
         ManageIdle(accelerateAxis, steerAxis);
         ManageLastHits();
-        ManageScoreboard();
 
         if (Input.GetAxis(accelerateAxis) > 0)
         {
@@ -84,16 +86,42 @@ public class CarModel : MonoBehaviour {
 
     private void ManageRespawn()
     {
-        if (body.transform.position.y < lavaHeight && !isIdle)
-        {
-            body.transform.position = new Vector3(0, 0, 5f);
-
-            if (lastHitByPlayer == -1)
-            { //If this is a suicide
-                score--;
+        if (!isStagedForRespawning) {
+            if (body.transform.position.y < lavaHeight)
+            {
+                UpdateScores();
+                isStagedForRespawning = true;
             }
-         //   body.velocity = new Vector3(0f, 0f, 0f);
         }
+        else
+        {
+            body.transform.position = new Vector3(0, 0, -100f);
+            body.velocity = new Vector3(0, 0, 0);
+            body.angularVelocity = new Vector3(0, 0, 0);
+
+            if (!isIdle)
+            {
+                RespawnCar();
+            }
+        }
+    }
+
+    private void UpdateScores()
+    {
+        if (lastHitByPlayer == -1)
+        { //If this is a suicide
+            scoreBoard.SubtractPoint(playerNumber);
+        }
+        else
+        {
+            scoreBoard.AddPoint(lastHitByPlayer);
+        }
+    }
+
+    private void RespawnCar()
+    {
+        body.transform.position = new Vector3(0, 0, 5f);
+        isStagedForRespawning = false;
     }
 
     private void ManageIdle(string accelerateAxis, string steerAxis)
@@ -120,11 +148,6 @@ public class CarModel : MonoBehaviour {
         }
 
         print("Player: " + playerNumber + " last hit by player: " + lastHitByPlayer);
-    }
-
-    private void ManageScoreboard()
-    {
-        scoreBoard.text = "" + score;
     }
 
     public void PushCar(Vector3 pushDirection, float pushPower)
