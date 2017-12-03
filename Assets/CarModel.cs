@@ -68,7 +68,7 @@ public class CarModel : MonoBehaviour {
 
     private void ManageRespawn()
     {
-        if (body.transform.position.z < lavaHeight)
+        if (body.transform.position.y < lavaHeight)
         {
             body.transform.position = new Vector3(0, 0, 5f);
          //   body.velocity = new Vector3(0f, 0f, 0f);
