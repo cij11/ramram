@@ -7,6 +7,9 @@ public class CarModel : MonoBehaviour {
     Rigidbody body;
     Material mat;
 
+    public TextMesh scoreBoard;
+    int score = 0;
+
     float enginePower = 30f;
     float turnPower = 9f;
 
@@ -45,6 +48,7 @@ public class CarModel : MonoBehaviour {
 
         ManageIdle(accelerateAxis, steerAxis);
         ManageLastHits();
+        ManageScoreboard();
 
         if (Input.GetAxis(accelerateAxis) > 0)
         {
@@ -83,6 +87,11 @@ public class CarModel : MonoBehaviour {
         if (body.transform.position.y < lavaHeight && !isIdle)
         {
             body.transform.position = new Vector3(0, 0, 5f);
+
+            if (lastHitByPlayer == -1)
+            { //If this is a suicide
+                score--;
+            }
          //   body.velocity = new Vector3(0f, 0f, 0f);
         }
     }
@@ -111,6 +120,11 @@ public class CarModel : MonoBehaviour {
         }
 
         print("Player: " + playerNumber + " last hit by player: " + lastHitByPlayer);
+    }
+
+    private void ManageScoreboard()
+    {
+        scoreBoard.text = "" + score;
     }
 
     public void PushCar(Vector3 pushDirection, float pushPower)
