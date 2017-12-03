@@ -6,9 +6,12 @@ public class Bumper : MonoBehaviour {
 
     float collisionPower = 1000f;
 
+    int playerNumber = 0;
+
 	// Use this for initialization
 	void Start () {
-		
+        CarModel carModel = this.transform.GetComponentInParent<CarModel>() as CarModel;
+        playerNumber = carModel.GetPlayerNumber();
 	}
 	
 	// Update is called once per frame
@@ -29,6 +32,7 @@ public class Bumper : MonoBehaviour {
             vecToOtherCar.Normalize();
 
             otherCar.PushCar(vecToOtherCar, collisionPower);
+            otherCar.RegisterHitByPlayer(playerNumber);
         }
     }
 }

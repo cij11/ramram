@@ -24,6 +24,10 @@ public class CarModel : MonoBehaviour {
     float idleLimit = 10;
     bool isIdle = false;
 
+    int lastHitByPlayer = -1;
+    float lastHitTimer = 0;
+    float lastHitLimit = 15;
+
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -40,6 +44,7 @@ public class CarModel : MonoBehaviour {
         steerAxis = "Steer" + playerNumber;
 
         ManageIdle(accelerateAxis, steerAxis);
+        ManageLastHits();
 
         if (Input.GetAxis(accelerateAxis) > 0)
         {
@@ -94,13 +99,29 @@ public class CarModel : MonoBehaviour {
         }
 
         isIdle = (idleTimer > idleLimit);
+    }
 
-        print(isIdle);
+    private void ManageLastHits()
+    {
+        lastHitTimer += Time.deltaTime;
+        if (lastHitTimer >= lastHitLimit)
+        {
+            lastHitTimer = lastHitLimit;
+            lastHitByPlayer = -1;
+        }
+
+        print("Player: " + playerNumber + " last hit by player: " + lastHitByPlayer);
     }
 
     public void PushCar(Vector3 pushDirection, float pushPower)
     {
         body.AddForce(pushDirection * pushPower);
+    }
+
+    public void RegisterHitByPlayer(int hittingPlayer)
+    {
+        lastHitByPlayer = hittingPlayer;
+        lastHitTimer = 0;
     }
 
     //Returns the rotational speed of the car
@@ -109,6 +130,9 @@ public class CarModel : MonoBehaviour {
         return body.angularVelocity.z;
     }
 
-
+    public int GetPlayerNumber()
+    {
+        return playerNumber;
+    }
 
 }
