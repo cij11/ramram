@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum RammingState
+{
+    RAM_READY,
+    RAM_COOLDOWN
+}
 public class CarModel : MonoBehaviour {
 
     Rigidbody body;
@@ -32,6 +37,16 @@ public class CarModel : MonoBehaviour {
 
     bool isStagedForRespawning = false;
 
+    float rammingSpeed = 40f;
+    float ramTimer = -1f;
+    float ramCooldown = 5.0f;
+
+    float timeSinceForwardPressed = 0.0f;
+    float timeSinceForwardNeutral = 0.0f;
+    float doubleTapLimit = 0.2f;
+
+
+    
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -51,14 +66,22 @@ public class CarModel : MonoBehaviour {
 
         ManageIdle(accelerateAxis, steerAxis);
         ManageLastHits();
+        UpdateDoubleTapTimers();
+        ManageRamming();
 
-        if (Input.GetAxis(accelerateAxis) > 0)
+            if (Input.GetAxis(accelerateAxis) > 0)
+            {
+               timeSinceForwardPressed = 0.0f;
+                body.AddForce(body.transform.up * enginePower);
+            }
+            if (Input.GetAxis(accelerateAxis) < 0)
+            {
+                body.AddForce(body.transform.up * -enginePower);
+            }
+
+        if (Input.GetAxis(accelerateAxis) <= 0)
         {
-            body.AddForce(body.transform.up * enginePower);
-        }
-        if (Input.GetAxis(accelerateAxis) < 0)
-        {
-            body.AddForce(body.transform.up * -enginePower);
+            timeSinceForwardNeutral = 0.0f;
         }
 
         //If player presses turn counter-clockwise
@@ -82,6 +105,50 @@ public class CarModel : MonoBehaviour {
             }
         }
 
+    }
+
+    private void ManageRamming()
+    {
+        bool doubleTapDetected = checkDoubleTaps();
+
+        if (doubleTapDetected)
+        {
+            if (ramTimer < 0)
+            {
+                RamCar();
+                ramTimer = ramCooldown;
+            }
+        }
+
+        if (ramTimer > 0)
+        {
+            ramTimer -= Time.deltaTime;
+        }
+    }
+
+    void UpdateDoubleTapTimers()
+    {
+        timeSinceForwardNeutral += Time.deltaTime;
+        timeSinceForwardPressed += Time.deltaTime;
+    }
+
+    bool checkDoubleTaps()
+    {
+        if (Input.GetAxis(accelerateAxis) > 0)
+        {
+            if (timeSinceForwardNeutral < doubleTapLimit)
+            {
+                if ( (timeSinceForwardPressed < doubleTapLimit) && (timeSinceForwardPressed > timeSinceForwardNeutral ) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void RamCar()
+    {
+        body.velocity = body.transform.up * rammingSpeed;
     }
 
     private void ManageRespawn()
