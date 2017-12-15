@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Bumper : MonoBehaviour {
 
-    float collisionPower = 1000f;
-
+	float reboundSpeed = 1000f;
+    float collisionPower = 50f;
+	float minimumCollisionSpeed = 1000f;
     int playerNumber = 0;
-
+	CarModel carModel;
 	// Use this for initialization
 	void Start () {
-        CarModel carModel = this.transform.GetComponentInParent<CarModel>() as CarModel;
+        carModel = this.transform.GetComponentInParent<CarModel>() as CarModel;
         playerNumber = carModel.GetPlayerNumber();
 	}
 	
@@ -31,7 +32,12 @@ public class Bumper : MonoBehaviour {
             Vector3 vecToOtherCar = otherCar.transform.position - this.transform.position;
             vecToOtherCar.Normalize();
 
-            otherCar.PushCar(vecToOtherCar, collisionPower);
+			carModel.PushCar (-vecToOtherCar, reboundSpeed);
+			float carspeed = carModel.GetCarVelocity().magnitude;
+			float bounceSpeed = carspeed * collisionPower;
+			if (bounceSpeed < minimumCollisionSpeed) bounceSpeed = minimumCollisionSpeed;
+
+			otherCar.PushCar(vecToOtherCar, bounceSpeed);
             otherCar.RegisterHitByPlayer(playerNumber);
         }
     }

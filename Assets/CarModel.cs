@@ -14,10 +14,10 @@ public class CarModel : MonoBehaviour {
     
     public ScoreBoard scoreBoard;
 
-    float enginePower = 30f;
-    float turnPower = 9f;
+	public float enginePower = 30f;
+	public float turnPower = 9f;
 
-    float maxTurnSpeed = 5f;
+	public float maxTurnSpeed = 5f;
 
     public int playerNumber = 0;
 
@@ -27,8 +27,8 @@ public class CarModel : MonoBehaviour {
     string steerAxis = "Steer0";
 
 
-    float idleTimer = 0;
-    float idleLimit = 10;
+	public  float idleTimer = 0;
+	public float idleLimit = 10;
     bool isIdle = false;
 
     int lastHitByPlayer = -1;
@@ -238,5 +238,8 @@ public class CarModel : MonoBehaviour {
     {
         return playerNumber;
     }
-
+	public Vector3 GetCarVelocity()
+	{
+		return body.velocity;
+	}	
 }
