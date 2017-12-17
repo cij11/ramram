@@ -22,6 +22,9 @@ public class CarModel : MonoBehaviour {
     public int playerNumber = 0;
 
     float lavaHeight = -30f;
+    float controlLossHeight = -1.0f;
+    float respawnBoxRadius = 10.0f;
+    Vector3 respawnAnchorPoint = new Vector3(-1, 5, 7);
 
     string accelerateAxis = "Accelerate0";
     string steerAxis = "Steer0";
@@ -71,24 +74,30 @@ public class CarModel : MonoBehaviour {
         UpdateDoubleTapTimers();
         ManageRamming();
 
-            if (Input.GetAxis(accelerateAxis) > 0)
-            {
-                //Accelerate care forwards
-                body.AddForce(body.transform.up * enginePower);
+        if (body.transform.position.y > controlLossHeight)
+        {
+            ManageCarControls();
+        }
+    }
 
-                if (neutralLastFrame)
-              {
-                   RegisterTap();
-                }
-            }
-            if (Input.GetAxis(accelerateAxis) < 0)
+    void ManageCarControls()
+    {
+        if (Input.GetAxis(accelerateAxis) > 0)
+        {
+            //Accelerate care forwards
+            body.AddForce(body.transform.up * enginePower);
+
+            if (neutralLastFrame)
             {
-                body.AddForce(body.transform.up * -enginePower);
+                RegisterTap();
             }
+        }
+        if (Input.GetAxis(accelerateAxis) < 0)
+        {
+            body.AddForce(body.transform.up * -enginePower);
+        }
 
         neutralLastFrame = (Input.GetAxis(accelerateAxis) <= 0);
-
-
 
         //If player presses turn counter-clockwise
         if (Input.GetAxis(steerAxis) > 0)
@@ -110,7 +119,6 @@ public class CarModel : MonoBehaviour {
                 body.AddTorque(body.transform.forward * -turnPower);
             }
         }
-
     }
 
     private void RegisterTap()
@@ -193,7 +201,8 @@ public class CarModel : MonoBehaviour {
 
     private void RespawnCar()
     {
-        body.transform.position = new Vector3(0, 0, 5f);
+        Vector3 randomVector = new Vector3(Random.Range(-respawnBoxRadius, respawnBoxRadius), 0.0f, Random.Range(-respawnBoxRadius, respawnBoxRadius));
+        body.transform.position = respawnAnchorPoint + randomVector;
         isStagedForRespawning = false;
     }
 
