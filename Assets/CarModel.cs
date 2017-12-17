@@ -37,13 +37,15 @@ public class CarModel : MonoBehaviour {
 
     bool isStagedForRespawning = false;
 
-    float rammingSpeed = 40f;
+    float rammingSpeed = 30f;
     float ramTimer = -1f;
-    float ramCooldown = 5.0f;
+    float ramCooldown = 1.0f;
 
     float timeSinceForwardPressed = 0.0f;
-    float timeSinceForwardNeutral = 0.0f;
+    float oldTimeSinceForwardPressed = 1.0f;
+    bool neutralLastFrame = true;
     float doubleTapLimit = 0.2f;
+    bool doubleTap = false;
 
 
     
@@ -71,18 +73,22 @@ public class CarModel : MonoBehaviour {
 
             if (Input.GetAxis(accelerateAxis) > 0)
             {
-               timeSinceForwardPressed = 0.0f;
+                //Accelerate care forwards
                 body.AddForce(body.transform.up * enginePower);
+
+                if (neutralLastFrame)
+              {
+                   RegisterTap();
+                }
             }
             if (Input.GetAxis(accelerateAxis) < 0)
             {
                 body.AddForce(body.transform.up * -enginePower);
             }
 
-        if (Input.GetAxis(accelerateAxis) <= 0)
-        {
-            timeSinceForwardNeutral = 0.0f;
-        }
+        neutralLastFrame = (Input.GetAxis(accelerateAxis) <= 0);
+
+
 
         //If player presses turn counter-clockwise
         if (Input.GetAxis(steerAxis) > 0)
@@ -107,12 +113,26 @@ public class CarModel : MonoBehaviour {
 
     }
 
+    private void RegisterTap()
+    {
+        oldTimeSinceForwardPressed = timeSinceForwardPressed;
+        timeSinceForwardPressed = 0.0f;
+
+        if (oldTimeSinceForwardPressed - timeSinceForwardPressed < doubleTapLimit)
+        {
+            doubleTap = true;
+        }
+    }
+
     private void ManageRamming()
     {
-        bool doubleTapDetected = checkDoubleTaps();
+        
 
-        if (doubleTapDetected)
+        if (doubleTap)
         {
+            //reset the double tap
+            doubleTap = false;
+
             if (ramTimer < 0)
             {
                 RamCar();
@@ -128,22 +148,8 @@ public class CarModel : MonoBehaviour {
 
     void UpdateDoubleTapTimers()
     {
-        timeSinceForwardNeutral += Time.deltaTime;
+        oldTimeSinceForwardPressed += Time.deltaTime;
         timeSinceForwardPressed += Time.deltaTime;
-    }
-
-    bool checkDoubleTaps()
-    {
-        if (Input.GetAxis(accelerateAxis) > 0)
-        {
-            if (timeSinceForwardNeutral < doubleTapLimit)
-            {
-                if ( (timeSinceForwardPressed < doubleTapLimit) && (timeSinceForwardPressed > timeSinceForwardNeutral ) ) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private void RamCar()
