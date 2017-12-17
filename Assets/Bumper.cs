@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bumper : MonoBehaviour {
 
-	float reboundSpeed = 1000f;
+	float reboundSpeed = 500f;
     float collisionPower = 50f;
 	float minimumCollisionSpeed = 1000f;
     int playerNumber = 0;
@@ -32,7 +32,8 @@ public class Bumper : MonoBehaviour {
             Vector3 vecToOtherCar = otherCar.transform.position - this.transform.position;
             vecToOtherCar.Normalize();
 
-			carModel.PushCar (-vecToOtherCar, reboundSpeed);
+
+			carModel.PushCar (-carModel.transform.up, reboundSpeed);
 			float carspeed = carModel.GetCarVelocity().magnitude;
 			float bounceSpeed = carspeed * collisionPower;
 			if (bounceSpeed < minimumCollisionSpeed) bounceSpeed = minimumCollisionSpeed;
