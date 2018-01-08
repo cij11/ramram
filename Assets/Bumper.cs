@@ -9,11 +9,17 @@ public class Bumper : MonoBehaviour {
 	float minimumCollisionSpeed = 1000f;
     int playerNumber = 0;
 	CarModel carModel;
+
+    AudioSource collisionSound; 
+
 	// Use this for initialization
 	void Start () {
         carModel = this.transform.GetComponentInParent<CarModel>() as CarModel;
         playerNumber = carModel.GetPlayerNumber();
-	}
+
+        collisionSound = GetComponent<AudioSource>() as AudioSource;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -40,6 +46,8 @@ public class Bumper : MonoBehaviour {
 
 			otherCar.PushCar(vecToOtherCar, bounceSpeed);
             otherCar.RegisterHitByPlayer(playerNumber);
+
+            collisionSound.Play();
         }
     }
 }

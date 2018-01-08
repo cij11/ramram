@@ -51,16 +51,28 @@ public class CarModel : MonoBehaviour {
     float doubleTapLimit = 0.2f;
     bool doubleTap = false;
 
+    public AudioClip ramClip;
+    bool oldEngineOn = false;
+    bool engineOn = false;
+    float maxVolume = 1;
+    float minVolume = 0;
+    float fadeRate = 2.0f;
+    float currentVolume = 0;
 
-    
-	// Use this for initialization
-	void Start () {
+    AudioSource engineSound;
+    AudioSource ramSound;
+
+    // Use this for initialization
+    void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
         mat = GetComponent<Material>() as Material;
 
         scoreBoard = FindObjectOfType<ScoreBoard>() as ScoreBoard;
         roundManager = FindObjectOfType<RoundManager>() as RoundManager;
-	}
+
+        engineSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
+        ramSound = GetComponents<AudioSource>().GetValue(1) as AudioSource;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -77,10 +89,45 @@ public class CarModel : MonoBehaviour {
         UpdateDoubleTapTimers();
         ManageRamming();
 
+        ManageSounds();
+
         if (body.transform.position.y > controlLossHeight)
         {
             ManageCarControls();
         }
+    }
+
+    void ManageSounds()
+    {
+        if(Input.GetAxis(accelerateAxis) > 0 && !this.oldEngineOn)
+        {
+            engineSound.Play();
+            this.oldEngineOn = true;
+        }
+
+        if(! (Input.GetAxis(accelerateAxis) > 0) && this.oldEngineOn)
+        {
+         //   engineSound.Stop();
+            this.oldEngineOn = false;
+        }
+
+        if(this.oldEngineOn)
+        {
+            if(this.currentVolume < this.maxVolume)
+            {
+                this.currentVolume += Time.deltaTime * this.fadeRate;
+            }
+        }
+
+        if(!this.oldEngineOn)
+        {
+            if (this.currentVolume > 0)
+            {
+                this.currentVolume -= Time.deltaTime * this.fadeRate;
+            }
+        }
+
+        engineSound.volume = this.currentVolume;
     }
 
     void ManageCarControls()
@@ -147,6 +194,7 @@ public class CarModel : MonoBehaviour {
             if (ramTimer < 0)
             {
                 RamCar();
+                ramSound.Play();
                 ramTimer = ramCooldown;
             }
         }
