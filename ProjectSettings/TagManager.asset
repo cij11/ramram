@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Scoreboard
+  - player0score
+  - player1score
+  - player2score
+  - player3score
   layers:
   - Default
   - TransparentFX
