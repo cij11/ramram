@@ -54,8 +54,8 @@ public class CarModel : MonoBehaviour {
     public AudioClip ramClip;
     bool oldEngineOn = false;
     bool engineOn = false;
-    float maxVolume = 1;
-    float minVolume = 0;
+    float maxVolume = 1f;
+    float minVolume = 0.05f;
     float fadeRate = 2.0f;
     float currentVolume = 0;
 
@@ -72,6 +72,8 @@ public class CarModel : MonoBehaviour {
 
         engineSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
         ramSound = GetComponents<AudioSource>().GetValue(1) as AudioSource;
+
+        engineSound.Play();
     }
 	
 	// Update is called once per frame
@@ -99,9 +101,9 @@ public class CarModel : MonoBehaviour {
 
     void ManageSounds()
     {
-        if(Input.GetAxis(accelerateAxis) > 0 && !this.oldEngineOn)
+        if (Input.GetAxis(accelerateAxis) > 0 && !this.oldEngineOn)
         {
-            engineSound.Play();
+            
             this.oldEngineOn = true;
         }
 
@@ -121,7 +123,7 @@ public class CarModel : MonoBehaviour {
 
         if(!this.oldEngineOn)
         {
-            if (this.currentVolume > 0)
+            if (this.currentVolume > this.minVolume)
             {
                 this.currentVolume -= Time.deltaTime * this.fadeRate;
             }
