@@ -13,6 +13,7 @@ public class CarModel : MonoBehaviour {
     Material mat;
     
     public ScoreBoard scoreBoard;
+    public RoundManager roundManager;
 
 	public float enginePower = 30f;
 	public float turnPower = 9f;
@@ -30,15 +31,15 @@ public class CarModel : MonoBehaviour {
     string steerAxis = "Steer0";
 
 
-	public  float idleTimer = 0;
 	public float idleLimit = 10;
-    bool isIdle = false;
+    public float idleTimer = 11;
+    bool isIdle = true;
 
     int lastHitByPlayer = -1;
     float lastHitTimer = 0;
     float lastHitLimit = 15;
 
-    bool isStagedForRespawning = false;
+    bool isStagedForRespawning = true;
 
     float rammingSpeed = 30f;
     float ramTimer = -1f;
@@ -58,6 +59,7 @@ public class CarModel : MonoBehaviour {
         mat = GetComponent<Material>() as Material;
 
         scoreBoard = FindObjectOfType<ScoreBoard>() as ScoreBoard;
+        roundManager = FindObjectOfType<RoundManager>() as RoundManager;
 	}
 	
 	// Update is called once per frame
@@ -70,6 +72,7 @@ public class CarModel : MonoBehaviour {
         steerAxis = "Steer" + playerNumber;
 
         ManageIdle(accelerateAxis, steerAxis);
+        ManageJoinGame();
         ManageLastHits();
         UpdateDoubleTapTimers();
         ManageRamming();
@@ -176,7 +179,7 @@ public class CarModel : MonoBehaviour {
         }
         else
         {
-            body.transform.position = new Vector3(0, 0, -100f);
+            body.transform.position = new Vector3(this.playerNumber * 2, 0, -100f);
             body.velocity = new Vector3(0, 0, 0);
             body.angularVelocity = new Vector3(0, 0, 0);
 
@@ -210,14 +213,24 @@ public class CarModel : MonoBehaviour {
     {
         if ((Input.GetAxis(accelerateAxis) != 0) || Input.GetAxis(steerAxis) != 0)
         {
-            idleTimer = 0;
+            //idleTimer = 0;
+            isIdle = false;
         }
-        else
-        {
-            idleTimer += Time.deltaTime;
-        }
+   //     else
+   //    {
+   //         idleTimer += Time.deltaTime;
+   //     }
 
-        isIdle = (idleTimer > idleLimit);
+        //No longer go idle during a game. Opt into game at beginning instead.
+      //  isIdle = (idleTimer > idleLimit);
+    }
+
+    private void ManageJoinGame()
+    {
+        if(!isIdle)
+        {
+            roundManager.RegisterPlayer(this.playerNumber);
+        }
     }
 
     private void ManageLastHits()
