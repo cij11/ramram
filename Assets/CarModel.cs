@@ -58,7 +58,8 @@ public class CarModel : MonoBehaviour {
     bool engineOn = false;
     float maxVolume = 1f;
     float minVolume = 0.05f;
-    float fadeRate = 2.0f;
+    float fadeUpRate = 1f;
+    float fadeDownRate = 2f;
     float currentVolume = 0;
 
     AudioSource engineSound;
@@ -121,7 +122,7 @@ public class CarModel : MonoBehaviour {
         {
             if(this.currentVolume < this.maxVolume)
             {
-                this.currentVolume += Time.deltaTime * this.fadeRate;
+                this.currentVolume += Time.deltaTime * this.fadeDownRate;
             }
         }
 
@@ -129,11 +130,20 @@ public class CarModel : MonoBehaviour {
         {
             if (this.currentVolume > this.minVolume)
             {
-                this.currentVolume -= Time.deltaTime * this.fadeRate;
+                this.currentVolume -= Time.deltaTime * this.fadeUpRate;
             }
         }
 
+        int maxPitch = 2;
         engineSound.volume = this.currentVolume;
+        if (this.currentVolume > 1f/maxPitch)
+        {
+            engineSound.pitch = this.currentVolume * maxPitch;
+        }
+        else
+        {
+            engineSound.pitch = 1.0f;
+        }
     }
 
     void ManageCarControls()
