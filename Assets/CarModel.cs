@@ -64,6 +64,7 @@ public class CarModel : MonoBehaviour {
 
     AudioSource engineSound;
     AudioSource ramSound;
+    float pitchScaler = 0.75f;
 
     // Use this for initialization
     void Start () {
@@ -138,11 +139,11 @@ public class CarModel : MonoBehaviour {
         engineSound.volume = this.currentVolume;
         if (this.currentVolume > 1f/maxPitch)
         {
-            engineSound.pitch = this.currentVolume * maxPitch;
+            engineSound.pitch = this.currentVolume * maxPitch * pitchScaler;
         }
         else
         {
-            engineSound.pitch = 1.0f;
+            engineSound.pitch = 1.0f * pitchScaler;
         }
     }
 
