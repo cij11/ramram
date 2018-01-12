@@ -93,10 +93,6 @@ public class RoundManager : MonoBehaviour {
                     break;
                 }
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartRound();
-        }
 	}
 
     void StartRound()

@@ -15,6 +15,8 @@ public class CarModel : MonoBehaviour {
     public ScoreBoard scoreBoard;
     public RoundManager roundManager;
 
+    RamSmokeController ramSmokeController;
+
 	public float enginePower = 30f;
 	public float turnPower = 9f;
 
@@ -72,6 +74,8 @@ public class CarModel : MonoBehaviour {
 
         engineSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
         ramSound = GetComponents<AudioSource>().GetValue(1) as AudioSource;
+
+        ramSmokeController = GetComponentInChildren<RamSmokeController>() as RamSmokeController;
 
         engineSound.Play();
     }
@@ -216,6 +220,7 @@ public class CarModel : MonoBehaviour {
     private void RamCar()
     {
         body.velocity = body.transform.up * rammingSpeed;
+        ramSmokeController.ActivateSmoke();
     }
 
     private void ManageRespawn()
@@ -291,8 +296,6 @@ public class CarModel : MonoBehaviour {
             lastHitTimer = lastHitLimit;
             lastHitByPlayer = -1;
         }
-
-        print("Player: " + playerNumber + " last hit by player: " + lastHitByPlayer);
     }
 
     public void PushCar(Vector3 pushDirection, float pushPower)
@@ -319,5 +322,6 @@ public class CarModel : MonoBehaviour {
 	public Vector3 GetCarVelocity()
 	{
 		return body.velocity;
-	}	
+	}
+
 }

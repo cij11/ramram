@@ -9,6 +9,7 @@ TagManager:
   - player1score
   - player2score
   - player3score
+  - platform
   layers:
   - Default
   - TransparentFX
