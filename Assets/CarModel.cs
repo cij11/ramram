@@ -62,6 +62,10 @@ public class CarModel : MonoBehaviour {
     float fadeDownRate = 2f;
     float currentVolume = 0;
 
+    float groundLevel = 0.0f;
+    float groundedRange = 0.5f;
+    bool grounded = false;
+
     AudioSource engineSound;
     AudioSource ramSound;
     float pitchScaler = 0.75f;
@@ -88,6 +92,8 @@ public class CarModel : MonoBehaviour {
         //Check if the car is below limits, then respawn
         ManageRespawn();
 
+        CheckGrounded();
+
         accelerateAxis = "Accelerate" + playerNumber;
         steerAxis = "Steer" + playerNumber;
 
@@ -96,12 +102,22 @@ public class CarModel : MonoBehaviour {
         ManageLastHits();
         UpdateDoubleTapTimers();
         ManageRamming();
-
+        ManageTurning();
         ManageSounds();
 
-        if (body.transform.position.y > controlLossHeight)
+        if (this.grounded)
         {
-            ManageCarControls();
+            ManageAcceleration();
+        }
+    }
+
+    void CheckGrounded()
+    {
+        this.grounded = false;
+
+        if (this.transform.position.y > groundLevel - groundedRange && this.transform.position.y < groundLevel + groundedRange)
+        {
+            this.grounded = true;
         }
     }
 
@@ -147,25 +163,21 @@ public class CarModel : MonoBehaviour {
         }
     }
 
-    void ManageCarControls()
+    void ManageAcceleration()
     {
         if (Input.GetAxis(accelerateAxis) > 0)
         {
             //Accelerate care forwards
             body.AddForce(body.transform.up * enginePower);
-
-            if (neutralLastFrame)
-            {
-                RegisterTap();
-            }
         }
+
         if (Input.GetAxis(accelerateAxis) < 0)
         {
             body.AddForce(body.transform.up * -enginePower);
         }
-
-        neutralLastFrame = (Input.GetAxis(accelerateAxis) <= 0);
-
+    }
+    void ManageTurning()
+    {
         //If player presses turn counter-clockwise
         if (Input.GetAxis(steerAxis) > 0)
         {
@@ -201,9 +213,15 @@ public class CarModel : MonoBehaviour {
 
     private void ManageRamming()
     {
-        
+        if (Input.GetAxis(accelerateAxis) > 0)
+        {
+            if (neutralLastFrame)
+            {
+                RegisterTap();
+            }
+        }
 
-        if (doubleTap)
+            if (doubleTap)
         {
             //reset the double tap
             doubleTap = false;
@@ -220,6 +238,8 @@ public class CarModel : MonoBehaviour {
         {
             ramTimer -= Time.deltaTime;
         }
+
+        neutralLastFrame = (Input.GetAxis(accelerateAxis) <= 0);
     }
 
     void UpdateDoubleTapTimers()
