@@ -70,6 +70,9 @@ public class CarModel : MonoBehaviour {
     AudioSource ramSound;
     float pitchScaler = 0.75f;
 
+    bool sliding = false;
+    Vector3 slideDirection = new Vector3(1, 0, 0);
+
     // Use this for initialization
     void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -105,9 +108,14 @@ public class CarModel : MonoBehaviour {
         ManageTurning();
         ManageSounds();
 
-        if (this.grounded)
+        if (this.grounded && !this.sliding)
         {
             ManageAcceleration();
+        }
+
+        if(this.sliding)
+        {
+            body.AddForce(this.slideDirection * enginePower);
         }
     }
 
@@ -354,5 +362,14 @@ public class CarModel : MonoBehaviour {
 	{
 		return body.velocity;
 	}
+
+    public void SetSliding (bool isSliding) {
+        this.sliding = isSliding;
+
+        Vector3 currentDirection = body.velocity;
+
+            this.slideDirection = currentDirection.normalized;
+
+    }
 
 }
