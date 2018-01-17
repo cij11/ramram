@@ -14,6 +14,8 @@ public class Barrel : MonoBehaviour {
     public bool destroyedAfterExplosion = true;
     public bool respawnAfterExplosion = true;
 
+    float launchSpeed = 10f;
+
     float respawnBoxRadius = 10f;
     Vector3 respawnAnchorPoint = new Vector3(-1, 5, 7);
 
@@ -42,11 +44,25 @@ public class Barrel : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        CarModel otherCar = collision.collider.GetComponent<CarModel>() as CarModel;
-
-        if (otherCar != null)
+        if (!triggered)
         {
-            triggered = true;
+            CarModel otherCar = collision.collider.GetComponent<CarModel>() as CarModel;
+
+            if (otherCar != null)
+            {
+                triggered = true;
+                Vector3 direction = this.transform.position - otherCar.transform.position;
+                direction.y = 0;
+                direction.Normalize();
+                direction.y = 0.8f;
+
+                Rigidbody body = this.GetComponent<Rigidbody>() as Rigidbody;
+                body.velocity = direction * launchSpeed;
+            }
+        }
+        else
+        {
+            ApplyExplosionForce();
         }
     }
 
