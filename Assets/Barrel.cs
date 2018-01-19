@@ -65,6 +65,7 @@ public class Barrel : MonoBehaviour {
         else
         {
             ApplyExplosionForce();
+            ManageRearming();
         }
     }
 
