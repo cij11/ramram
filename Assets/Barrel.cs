@@ -21,11 +21,14 @@ public class Barrel : MonoBehaviour {
 
     AudioSource explosionSound;
 
+    Rigidbody body;
+
     // Use this for initialization
     void Start()
     {
         timer = maxTimer;
         explosionSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
+        body = this.GetComponent<Rigidbody>() as Rigidbody;
     }
 
     // Update is called once per frame
@@ -56,7 +59,6 @@ public class Barrel : MonoBehaviour {
                 direction.Normalize();
                 direction.y = 0.8f;
 
-                Rigidbody body = this.GetComponent<Rigidbody>() as Rigidbody;
                 body.velocity = direction * launchSpeed;
             }
         }
@@ -77,7 +79,7 @@ public class Barrel : MonoBehaviour {
             print("Applying explosion");
             Rigidbody rb = hit.GetComponent<Rigidbody>();
 
-            if (rb != null)
+            if (rb != null && rb != this.body)
             {
                 // rb.AddExplosionForce(explosionPower, explosionPos, explosionRadius, 3.0F);
                 Vector3 mineToBody = rb.transform.position - this.transform.position;
