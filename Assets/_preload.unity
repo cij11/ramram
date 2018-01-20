@@ -507,7 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58125adb40d27974496402eb1ece7ca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  first_scene: 1
+  first_scene: 3
 --- !u!224 &2135788447 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224803760703922868, guid: 70968767cf786904cb531f0805c3d389,
