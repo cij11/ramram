@@ -28,6 +28,9 @@ public class RoundManager : MonoBehaviour {
 
     int scene_to_load = 0;
 
+    public bool loadRandomScene = true;
+    int numScenes = 2;
+
 	// Use this for initialization
 	void Start () {
         roundText = this.GetComponentInChildren<Text>() as Text;
@@ -105,7 +108,14 @@ public class RoundManager : MonoBehaviour {
 
         this.roundState = RoundState.WAITING_FOR_PLAYERS;
 
-        SceneManager.LoadScene("scene_" + scene_to_load.ToString());
+
+        int nextScene = scene_to_load;
+        if (loadRandomScene)
+        {
+            nextScene = UnityEngine.Random.Range((int)0, numScenes);
+
+        }
+        SceneManager.LoadScene("scene_" + nextScene.ToString());
     }
 
     void EndRound()
