@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreBoard : MonoBehaviour {
 
@@ -59,5 +60,20 @@ public class ScoreBoard : MonoBehaviour {
     private void NotifyRoundManagerOfVictory(int winningPlayer)
     {
         roundManager.SetWinningPlayer(winningPlayer);
+        Invoke("ResetScores", 3);
+
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResetScores();
+    }
+
+    void ResetScores()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            SetPlayerScore(i, 0);
+        }
     }
 }

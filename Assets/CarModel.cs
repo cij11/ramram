@@ -321,7 +321,7 @@ public class CarModel : MonoBehaviour {
 
     private void ManageJoinGame()
     {
-        if(!isIdle)
+        if(Input.GetAxis(steerAxis) != 0 || Input.GetAxis(accelerateAxis) != 0)
         {
             roundManager.RegisterPlayer(this.playerNumber);
         }

@@ -14,7 +14,6 @@ public class RoundManager : MonoBehaviour {
     Text roundText;
         
     RoundState roundState = RoundState.WAITING_FOR_PLAYERS;
-    int numPlayers = 0;
     int minNumPlayers = 2;
 
     float startCountdownTimer = 0;
@@ -23,9 +22,11 @@ public class RoundManager : MonoBehaviour {
     float endingTimer = 0;
     float maxEndingCountdown = 5;
 
-    bool[] playerJoined = { false, false, false, false };
+    public bool[] playerJoined = { false, false, false, false };
 
     int winningPlayer = -1;
+
+    int scene_to_load = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -39,7 +40,7 @@ public class RoundManager : MonoBehaviour {
         {
             case RoundState.WAITING_FOR_PLAYERS:
                 {
-                    if (numPlayers >= minNumPlayers)
+                    if (NumPlayers() >= minNumPlayers)
                     {
                         roundState = RoundState.START_COUNTDOWN;
                         this.startCountdownTimer = this.maxStartCountdown;
@@ -97,7 +98,14 @@ public class RoundManager : MonoBehaviour {
 
     void StartRound()
     {
-        SceneManager.LoadScene("scene_0");
+        for (int i = 0; i < 4; i++)
+        {
+            this.playerJoined[i] = false;
+        }
+
+        this.roundState = RoundState.WAITING_FOR_PLAYERS;
+
+        SceneManager.LoadScene("scene_" + scene_to_load.ToString());
     }
 
     void EndRound()
@@ -110,8 +118,20 @@ public class RoundManager : MonoBehaviour {
         if (!playerJoined[playerNumber])
         {
             playerJoined[playerNumber] = true;
-            numPlayers++;
         }
+    }
+
+    private int NumPlayers()
+    {
+        int numPlayers = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerJoined[i])
+            {
+                numPlayers++;
+            }
+        }
+        return numPlayers;
     }
 
     public bool IsGamePlaying()
