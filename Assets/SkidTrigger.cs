@@ -41,12 +41,9 @@ public class SkidTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collider)
     {
-        print("collision");
-
         GameObject collidedWith = collider.gameObject;
         if (collidedWith.tag == "platform")
         {
-            print("Collision with platform");
             StartSkid();
         }
     }
