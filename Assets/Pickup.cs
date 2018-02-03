@@ -11,7 +11,7 @@ public enum PowerupType
 
 public class Pickup : MonoBehaviour
 {
-    PowerupType powerupType = PowerupType.SUPERRAM;
+    PowerupType powerupType = PowerupType.WIDE;
     // Use this for initialization
     void Start()
     {
@@ -31,6 +31,7 @@ public class Pickup : MonoBehaviour
         if (otherCar != null)
         {
             otherCar.ApplyPowerup(this.powerupType);
+            Destroy(this.gameObject);
         }
 
     }
