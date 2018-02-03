@@ -16,8 +16,12 @@ public class CarModel : MonoBehaviour {
     public RoundManager roundManager;
 
     RamSmokeController ramSmokeController;
+    Bumper bumper;
 
 	public float enginePower = 30f;
+    public float defaultEnginePower = 30f;
+    public float speedyEnginePower = 50f;
+
 	public float turnPower = 9f;
 
 	public float maxTurnSpeed = 5f;
@@ -73,6 +77,11 @@ public class CarModel : MonoBehaviour {
     bool sliding = false;
     Vector3 slideDirection = new Vector3(1, 0, 0);
 
+    private PowerupType activePower;
+    private bool poweredUp = false;
+    private float maxPowerupTimer = 5f;
+    private float powerupTimer = 0f;
+
     // Use this for initialization
     void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -87,6 +96,8 @@ public class CarModel : MonoBehaviour {
         ramSmokeController = GetComponentInChildren<RamSmokeController>() as RamSmokeController;
 
         engineSound.Play();
+
+        bumper = GetComponentInChildren<Bumper>() as Bumper;
     }
 	
 	// Update is called once per frame
@@ -107,6 +118,8 @@ public class CarModel : MonoBehaviour {
         ManageRamming();
         ManageTurning();
         ManageSounds();
+
+        ManagePowerupTimers();
 
         if (this.grounded && !this.sliding)
         {
@@ -372,4 +385,58 @@ public class CarModel : MonoBehaviour {
 
     }
 
+    public void ApplyPowerup(PowerupType powerup)
+    {
+        RemovePowerups();
+        this.powerupTimer = this.maxPowerupTimer;
+
+        switch (powerup)
+        {
+            case PowerupType.SPEEDY:
+                {
+                    this.enginePower = this.speedyEnginePower;
+                }
+                break;
+            case PowerupType.WIDE:
+                {
+                    SetGraphicAndBumperScale(2);
+                }
+                break;
+            case PowerupType.SUPERRAM:
+                {
+                    bumper.setBoostedCollisionPower(true);
+                }
+                break;
+        }
+    }
+
+    private void RemovePowerups()
+    {
+        this.enginePower = this.defaultEnginePower;
+        SetGraphicAndBumperScale(1);
+        bumper.setBoostedCollisionPower(false);
+    }
+
+    private void SetGraphicAndBumperScale(float scale)
+    {
+        Transform car_full = this.transform.GetChild(0);
+        car_full.transform.localScale = new Vector3(scale, 1f, 1f);
+
+        Transform bumper = this.transform.GetChild(1);
+        SphereCollider bumperCollider = bumper.GetComponent<SphereCollider>() as SphereCollider;
+        bumperCollider.radius = 0.8f * scale;
+    }
+
+    private void ManagePowerupTimers()
+    {
+        if (this.powerupTimer > 0)
+        {
+            this.powerupTimer -= Time.deltaTime;
+
+            if (this.powerupTimer < 0)
+            {
+                RemovePowerups();
+            }
+        }
+    }
 }

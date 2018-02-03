@@ -6,6 +6,9 @@ public class Bumper : MonoBehaviour {
 
 	float reboundSpeed = 500f;
     float collisionPower = 50f;
+    float defaultCollisionPower = 50f;
+    float boostedCollisionPower = 100f;
+
 	float minimumCollisionSpeed = 1000f;
     int playerNumber = 0;
 	CarModel carModel;
@@ -32,7 +35,6 @@ public class Bumper : MonoBehaviour {
 
         if (otherCar != null)
         {
-            print("Collision Detected");
 
             //  Destroy(otherCar.gameObject);
             Vector3 vecToOtherCar = otherCar.transform.position - this.transform.position;
@@ -48,6 +50,18 @@ public class Bumper : MonoBehaviour {
             otherCar.RegisterHitByPlayer(playerNumber);
 
             collisionSound.Play();
+        }
+    }
+
+    public void setBoostedCollisionPower(bool isBoosted)
+    {
+       if (isBoosted)
+        {
+            this.collisionPower = this.boostedCollisionPower;
+        }
+       else
+        {
+            this.collisionPower = this.defaultCollisionPower;
         }
     }
 }
