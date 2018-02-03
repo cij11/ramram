@@ -43,6 +43,11 @@ public class Barrel : MonoBehaviour {
                 ManageRearming();
             }
         }
+
+        if (this.transform.position.y < -10f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

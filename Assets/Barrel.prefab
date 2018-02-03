@@ -208,4 +208,4 @@ MonoBehaviour:
   explosionRadius: 5
   maxTimer: 2
   destroyedAfterExplosion: 1
-  respawnAfterExplosion: 1
+  respawnAfterExplosion: 0
