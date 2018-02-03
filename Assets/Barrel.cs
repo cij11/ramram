@@ -28,12 +28,13 @@ public class Barrel : MonoBehaviour {
     float movePower = 1f;
     float maxSpeed = 5;
 
+    public GameObject explosion;
+
 
     // Use this for initialization
     void Start()
     {
         timer = maxTimer;
-        explosionSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
         body = this.GetComponent<Rigidbody>() as Rigidbody;
 
         randomDirection = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
@@ -94,7 +95,7 @@ public class Barrel : MonoBehaviour {
 
     private void ApplyExplosionForce()
     {
-        explosionSound.Play();
+        Instantiate(this.explosion, this.transform.position, Quaternion.identity);
 
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, this.explosionRadius);

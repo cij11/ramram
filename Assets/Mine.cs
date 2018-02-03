@@ -19,13 +19,13 @@ public class Mine : MonoBehaviour {
 
     AudioSource explosionSound;
 
+    public GameObject explosion;
+
     // Use this for initialization
     void Start () {
         timer = maxTimer;
 
         lightRenderer = this.transform.GetChild(0).GetComponent<MeshRenderer>() as MeshRenderer;
-
-        explosionSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
     }
 	
 	// Update is called once per frame
@@ -51,7 +51,7 @@ public class Mine : MonoBehaviour {
 
     private void ApplyExplosionForce()
     {
-        explosionSound.Play();
+        Instantiate(this.explosion, this.transform.position, Quaternion.identity);
 
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, this.explosionRadius);
