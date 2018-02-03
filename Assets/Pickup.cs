@@ -11,7 +11,7 @@ public enum PowerupType
 
 public class Pickup : MonoBehaviour
 {
-    PowerupType powerupType = PowerupType.WIDE;
+    public PowerupType powerupType = PowerupType.WIDE;
     // Use this for initialization
     void Start()
     {
