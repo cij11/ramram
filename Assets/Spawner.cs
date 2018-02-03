@@ -8,6 +8,8 @@ public class Spawner : MonoBehaviour {
     public int spawnDelay = 5;
     public bool allowDuplicates = false;
 
+    float spawnRadius = 5.0f;
+
     GameObject lastSpawned;
 
     float spawnTimer;
@@ -40,10 +42,12 @@ public class Spawner : MonoBehaviour {
 
     void SpawnObject()
     {
+        //Pick a random object
         int objectToSpawnIndex = Random.Range(0, spawnables.Length);
-
         GameObject objectToSpawn = spawnables[objectToSpawnIndex];
-
-        lastSpawned = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
+    
+        //Pick a random location within spawnRadius of the spawner.
+        Vector3 randomVector = new Vector3(Random.Range(-spawnRadius, spawnRadius), 0.0f, Random.Range(-spawnRadius, spawnRadius));
+        lastSpawned = Instantiate(objectToSpawn, this.transform.position + randomVector, Quaternion.identity);
     }
 }
