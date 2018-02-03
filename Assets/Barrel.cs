@@ -23,12 +23,22 @@ public class Barrel : MonoBehaviour {
 
     Rigidbody body;
 
+    public bool enableRandomMovement = false;
+    Vector3 randomDirection;
+    float movePower = 1f;
+    float maxSpeed = 5;
+
+
     // Use this for initialization
     void Start()
     {
         timer = maxTimer;
         explosionSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
         body = this.GetComponent<Rigidbody>() as Rigidbody;
+
+        randomDirection = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
+        randomDirection.Normalize();
+
     }
 
     // Update is called once per frame
@@ -47,6 +57,14 @@ public class Barrel : MonoBehaviour {
         if (this.transform.position.y < -10f)
         {
             Destroy(this.gameObject);
+        }
+
+        if(enableRandomMovement)
+        {
+            if (body.velocity.magnitude < maxSpeed)
+            {
+                body.AddForce(randomDirection * movePower);
+            }
         }
     }
 
