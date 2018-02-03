@@ -5,6 +5,9 @@ using UnityEngine;
 public class RamSmokeController : MonoBehaviour {
 
     ParticleSystem ramSmoke;
+
+    float smokeTimer = 0f;
+    float maxSmokeTimer = 1f;
 	// Use this for initialization
 	void Start () {
         this.ramSmoke = GetComponent<ParticleSystem>() as ParticleSystem;
@@ -13,13 +16,23 @@ public class RamSmokeController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (smokeTimer > 0)
+        {
+            smokeTimer -= Time.deltaTime;
+            if (smokeTimer < 0)
+            {
+                DeactivateSmoke();
+            }
+        }
 	}
 
-    public void ActivateSmoke()
+    public void ActivateSmoke(float smokeDuration)
     {
         this.ramSmoke.Play();
-        Invoke("DeactivateSmoke", 1);
+        if (smokeTimer < smokeDuration)
+        {
+            smokeTimer = smokeDuration;
+        }
     }
 
     private void DeactivateSmoke()

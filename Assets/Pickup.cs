@@ -15,7 +15,7 @@ public class Pickup : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        powerupType = (PowerupType)Random.Range(0, System.Enum.GetValues(typeof(PowerupType)).Length);
     }
 
     // Update is called once per frame

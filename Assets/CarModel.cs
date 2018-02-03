@@ -272,7 +272,7 @@ public class CarModel : MonoBehaviour {
     private void RamCar()
     {
         body.velocity = body.transform.up * rammingSpeed;
-        ramSmokeController.ActivateSmoke();
+        ramSmokeController.ActivateSmoke(1f);
     }
 
     private void ManageRespawn()
@@ -395,6 +395,8 @@ public class CarModel : MonoBehaviour {
             case PowerupType.SPEEDY:
                 {
                     this.enginePower = this.speedyEnginePower;
+                    ramSmokeController.ActivateSmoke(maxPowerupTimer);
+
                 }
                 break;
             case PowerupType.WIDE:
@@ -405,6 +407,7 @@ public class CarModel : MonoBehaviour {
             case PowerupType.SUPERRAM:
                 {
                     bumper.setBoostedCollisionPower(true);
+                    SetGraphicHeight(2);
                 }
                 break;
         }
@@ -415,6 +418,7 @@ public class CarModel : MonoBehaviour {
         this.enginePower = this.defaultEnginePower;
         SetGraphicAndBumperScale(1);
         bumper.setBoostedCollisionPower(false);
+        SetGraphicHeight(1);
     }
 
     private void SetGraphicAndBumperScale(float scale)
@@ -425,6 +429,12 @@ public class CarModel : MonoBehaviour {
         Transform bumper = this.transform.GetChild(1);
         SphereCollider bumperCollider = bumper.GetComponent<SphereCollider>() as SphereCollider;
         bumperCollider.radius = 0.8f * scale;
+    }
+
+    private void SetGraphicHeight(float scale)
+    {
+        Transform car_full = this.transform.GetChild(0);
+        car_full.transform.localScale = new Vector3(1f, scale, 1f);
     }
 
     private void ManagePowerupTimers()
