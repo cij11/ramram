@@ -5,11 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour {
 
+    public bool startInMainMenu = true;
     public int first_scene = 1;
 
 	// Use this for initialization
 	void Start () {
-        SceneManager.LoadScene("scene_" + first_scene.ToString());
+        if (this.startInMainMenu)
+        {
+            SceneManager.LoadScene("menus");
+        }
+        else
+        {
+            SceneManager.LoadScene("scene_" + first_scene.ToString());
+        }
     }
 	
 	// Update is called once per frame
