@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour {
         ResetTournamentScores();
         DeRegisterAllPlayers();
         this.tournamentWinner = -1;
+        SceneManager.LoadScene("menus");
         gameState = GameState.MAIN_MENU;
         mainMenu.enabled = true;
     }
@@ -312,7 +313,7 @@ public class GameManager : MonoBehaviour {
         if (anyKey)
         {
             this.anyKeyLocked = true;
-            Invoke("UnlockAnyKey", 0.5f);
+            Invoke("UnlockAnyKey", 1f);
         }
 
         return anyKey;

@@ -837,6 +837,10 @@ Prefab:
       propertyPath: m_TagString
       value: platform
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 05344e75433add14fa879fa48bd7c369, type: 3}
+      propertyPath: m_TagString
+      value: platform
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 05344e75433add14fa879fa48bd7c369, type: 3}
   m_IsPrefabParent: 0
