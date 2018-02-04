@@ -14,6 +14,9 @@ enum GameState
 }
 public class GameManager : MonoBehaviour {
 
+    public bool loadRandomly = false;
+    public int levelToLoad = 0;
+
     public int[] roundScores = { 0, 0, 0, 0 };
     public int[] tournamentScores = { 0, 0, 0, 0 };
 
@@ -86,7 +89,15 @@ public class GameManager : MonoBehaviour {
 
     void TransitionRoundPlaying()
     {
-        LoadRandomScene();
+        if (this.loadRandomly)
+        {
+            LoadRandomScene();
+        }
+        else
+        {
+            SceneManager.LoadScene("scene_" + this.levelToLoad.ToString());
+        }
+
         ResetRoundScores();
 
         HideAllCanvases();
@@ -96,7 +107,7 @@ public class GameManager : MonoBehaviour {
 
     void LoadRandomScene()
     {
-        int nextScene = Random.Range(0, 4);
+        int nextScene = Random.Range(0, 3);
         string sceneName = "scene_" + nextScene.ToString();
         SceneManager.LoadScene(sceneName);
     }
