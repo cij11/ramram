@@ -13,14 +13,19 @@ enum GameState
 }
 public class GameManager : MonoBehaviour {
 
-    public int[] levelScores = { 0, 0, 0, 0 };
+    public int[] roundScores = { 0, 0, 0, 0 };
     public int[] tournamentScores = { 0, 0, 0, 0 };
+
+    public int roundLimit = 2;
+    public int tournamentLimit = 2;
 
     Canvas mainMenu;
     Canvas readyRoom;
-    Canvas roundScores;
+    Canvas roundScoreBoard;
     Canvas roundOver;
     Canvas tournamentOver;
+
+    RoundScoreboard roundScoreboardScript;
 
     private GameState gameState;
     // Use this for initialization
@@ -29,7 +34,10 @@ public class GameManager : MonoBehaviour {
 
         mainMenu = this.transform.GetChild(0).GetComponent<Canvas>() as Canvas;
         readyRoom = this.transform.GetChild(1).GetComponent<Canvas>() as Canvas;
-        roundScores = this.transform.GetChild(2).GetComponent<Canvas>() as Canvas;
+
+        roundScoreBoard = this.transform.GetChild(2).GetComponent<Canvas>() as Canvas;
+        roundScoreboardScript = this.transform.GetChild(2).GetComponent<RoundScoreboard>() as RoundScoreboard;
+
         roundOver = this.transform.GetChild(3).GetComponent<Canvas>() as Canvas;
         tournamentOver = this.transform.GetChild(4).GetComponent<Canvas>() as Canvas;
 
@@ -39,8 +47,17 @@ public class GameManager : MonoBehaviour {
     void TransitionMainMenu()
     {
         HideAllCanvases();
+        ResetTournamentScores();
         gameState = GameState.MAIN_MENU;
         mainMenu.enabled = true;
+    }
+
+    void ResetTournamentScores()
+    {
+         for (int i = 0; i < 4; i++)
+         {
+            this.tournamentScores[i] = 0;
+         }
     }
 
     void TransitionReadyRoom()
@@ -53,10 +70,11 @@ public class GameManager : MonoBehaviour {
     void TransitionRoundPlaying()
     {
         LoadRandomScene();
+        ResetRoundScores();
 
         HideAllCanvases();
         gameState = GameState.ROUND_PLAYING;
-        roundScores.enabled = true;
+        roundScoreBoard.enabled = true;
     }
 
     void LoadRandomScene()
@@ -64,6 +82,14 @@ public class GameManager : MonoBehaviour {
         int nextScene = Random.Range(0, 4);
         string sceneName = "scene_" + nextScene.ToString();
         SceneManager.LoadScene(sceneName);
+    }
+
+    void ResetRoundScores()
+    {
+        for (int i = 0; i < 4; i ++)
+        {
+            this.roundScores[i] = 0;
+        }
     }
 
     void TransitionRoundOver()
@@ -84,7 +110,7 @@ public class GameManager : MonoBehaviour {
     {
         mainMenu.enabled = false;
         readyRoom.enabled = false;
-        roundScores.enabled = false;
+        roundScoreBoard.enabled = false;
         roundOver.enabled = false;
         tournamentOver.enabled = false;
     }
@@ -116,6 +142,12 @@ public class GameManager : MonoBehaviour {
                     {
                         TransitionRoundOver();
                     }
+                    if (Input.GetKeyDown(KeyCode.Alpha7)) { ChangeScore(0, 1); }
+                    if (Input.GetKeyDown(KeyCode.Alpha8)) { ChangeScore(1, 1); }
+                    if (Input.GetKeyDown(KeyCode.Alpha9)) { ChangeScore(2, 1); }
+                    if (Input.GetKeyDown(KeyCode.Alpha0)) { ChangeScore(3, 1); }
+
+                    UpdateRoundScoreboard();
                     break;
                 }
             case GameState.ROUND_OVER:
@@ -137,4 +169,22 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    void UpdateRoundScoreboard()
+    {
+        roundScoreboardScript.SetScores(this.roundScores);
+    }
+
+    void ChangeScore(int player, int change)
+    {
+        if (player >= 0 && player <= 3)
+        {
+            this.roundScores[player] += change;
+        }
+
+        if (this.roundScores[player] >= this.roundLimit)
+        {
+            this.tournamentScores[player] += 1;
+            TransitionRoundOver();
+        }
+    }
 }
