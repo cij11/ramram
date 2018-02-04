@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour {
     {
         HideAllCanvases();
         gameState = GameState.TOURNAMENT_OVER;
-        tournamentOver.enabled = true;
+        roundOver.enabled = true;
     }
 
     void HideAllCanvases()
@@ -184,11 +184,12 @@ public class GameManager : MonoBehaviour {
                 }
             case GameState.ROUND_OVER:
                 {
-                    UpdateRoundOverScoreboard();
+                    string roundOverMessage = "Player " + (this.roundWinner + 1).ToString() + " wins the Round!";
+                    UpdateRoundOverScoreboard(roundOverMessage, this.roundWinner);
 
                     if (AnyKey())
                     {
-                        if (this.tournamentWinner > 0)
+                        if (this.tournamentWinner > -1)
                         {
                             TransitionTournamentOver();
                         } else
@@ -201,7 +202,8 @@ public class GameManager : MonoBehaviour {
                 }
             case GameState.TOURNAMENT_OVER:
                 {
-                    UpdateTournamentOverText();
+                    string tournamentOverMessage = "Player " + (this.tournamentWinner + 1).ToString() + " wins the Tournament!";
+                    UpdateRoundOverScoreboard(tournamentOverMessage, this.tournamentWinner);
 
                     if (AnyKey())
                     {
@@ -217,11 +219,11 @@ public class GameManager : MonoBehaviour {
         roundScoreboardScript.SetScores(this.roundScores);
     }
 
-    void UpdateRoundOverScoreboard()
+    void UpdateRoundOverScoreboard(string scoreboardMessage, int winner)
     {
-        roundOverText.text = "Player " + (this.roundWinner + 1).ToString() + " wins the Round!";
+        roundOverText.text = scoreboardMessage;
 
-        switch(this.roundWinner)
+        switch (winner)
         {
             case (0): {
                     roundOverText.color = Color.red;
