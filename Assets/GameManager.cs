@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 enum GameState
 {
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour {
     public int roundLimit = 2;
     public int tournamentLimit = 2;
 
+    int roundWinner = -1;
+    int tournamentWinner = -1;
+
     Canvas mainMenu;
     Canvas readyRoom;
     Canvas roundScoreBoard;
@@ -26,6 +30,11 @@ public class GameManager : MonoBehaviour {
     Canvas tournamentOver;
 
     RoundScoreboard roundScoreboardScript;
+
+    Text roundOverText;
+    Text tournamentOverText;
+
+    private bool anyKeyLocked = false;
 
     private GameState gameState;
     // Use this for initialization
@@ -39,7 +48,10 @@ public class GameManager : MonoBehaviour {
         roundScoreboardScript = this.transform.GetChild(2).GetComponent<RoundScoreboard>() as RoundScoreboard;
 
         roundOver = this.transform.GetChild(3).GetComponent<Canvas>() as Canvas;
+        roundOverText = this.transform.GetChild(3).GetChild(0).GetComponent<Text>() as Text;
+
         tournamentOver = this.transform.GetChild(4).GetComponent<Canvas>() as Canvas;
+        tournamentOverText = this.transform.GetChild(4).GetChild(0).GetComponent<Text>() as Text;
 
         TransitionMainMenu();
     }
@@ -48,6 +60,7 @@ public class GameManager : MonoBehaviour {
     {
         HideAllCanvases();
         ResetTournamentScores();
+        this.tournamentWinner = -1;
         gameState = GameState.MAIN_MENU;
         mainMenu.enabled = true;
     }
@@ -122,7 +135,7 @@ public class GameManager : MonoBehaviour {
         {
             case GameState.MAIN_MENU:
                 {
-                    if(Input.GetKeyDown(KeyCode.Alpha1))
+                    if(AnyKey())
                     {
                         TransitionReadyRoom();
                     }
@@ -130,37 +143,50 @@ public class GameManager : MonoBehaviour {
                 }
             case GameState.READY_ROOM:
                 {
-                    if (Input.GetKeyDown(KeyCode.Alpha2))
-                    {
+                    if (AnyKey())
+                        {
                         TransitionRoundPlaying();
                     }
                     break;
                 }
             case GameState.ROUND_PLAYING:
                 {
-                    if (Input.GetKeyDown(KeyCode.Alpha3))
-                    {
-                        TransitionRoundOver();
-                    }
+                    UpdateRoundScoreboard();
+
                     if (Input.GetKeyDown(KeyCode.Alpha7)) { ChangeScore(0, 1); }
                     if (Input.GetKeyDown(KeyCode.Alpha8)) { ChangeScore(1, 1); }
                     if (Input.GetKeyDown(KeyCode.Alpha9)) { ChangeScore(2, 1); }
                     if (Input.GetKeyDown(KeyCode.Alpha0)) { ChangeScore(3, 1); }
+                    if (Input.GetKeyDown(KeyCode.Alpha3))
 
-                    UpdateRoundScoreboard();
+                    {
+                        TransitionRoundOver();
+                    }
+
                     break;
                 }
             case GameState.ROUND_OVER:
                 {
-                    if (Input.GetKeyDown(KeyCode.Alpha4))
+                    UpdateRoundOverText();
+
+                    if (AnyKey())
                     {
-                        TransitionTournamentOver();
+                        if (this.tournamentWinner > 0)
+                        {
+                            TransitionTournamentOver();
+                        } else
+                        {
+                            TransitionRoundPlaying();
+                        }
+                        
                     }
                     break;
                 }
             case GameState.TOURNAMENT_OVER:
                 {
-                    if (Input.GetKeyDown(KeyCode.Alpha5))
+                    UpdateTournamentOverText();
+
+                    if (AnyKey())
                     {
                         TransitionMainMenu();
                     }
@@ -174,6 +200,16 @@ public class GameManager : MonoBehaviour {
         roundScoreboardScript.SetScores(this.roundScores);
     }
 
+    void UpdateRoundOverText()
+    {
+        roundOverText.text = "Round winner is " + (this.roundWinner + 1).ToString();
+    }
+
+    void UpdateTournamentOverText()
+    {
+        tournamentOverText.text = "Tournament winner is " + (this.tournamentWinner + 1).ToString();
+    }
+
     void ChangeScore(int player, int change)
     {
         if (player >= 0 && player <= 3)
@@ -183,8 +219,53 @@ public class GameManager : MonoBehaviour {
 
         if (this.roundScores[player] >= this.roundLimit)
         {
+            this.roundWinner = player;
+
             this.tournamentScores[player] += 1;
+            if(this.tournamentScores[player] >= this.tournamentLimit)
+            {
+                this.tournamentWinner = player;
+            }
+
             TransitionRoundOver();
         }
+    }
+
+    private bool AnyKey()
+    {
+        if (this.anyKeyLocked)
+        {
+            return false;
+        }
+
+        bool anyKey = false;
+
+        for (int i = 0; i < 4; i ++ )
+        {
+            string accelerateAxis = "Accelerate" + i;
+            string steerAxis = "Steer" + i;
+
+            if(Input.GetAxis(accelerateAxis) != 0)
+            {
+                anyKey = true;
+            }
+            if (Input.GetAxis(steerAxis) != 0)
+            {
+                anyKey = true;
+            }
+        }
+
+        if (anyKey)
+        {
+            this.anyKeyLocked = true;
+            Invoke("UnlockAnyKey", 0.5f);
+        }
+
+        return anyKey;
+    }
+
+    private void UnlockAnyKey()
+    {
+        this.anyKeyLocked = false;
     }
 }
