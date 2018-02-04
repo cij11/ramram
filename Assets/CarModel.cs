@@ -12,8 +12,7 @@ public class CarModel : MonoBehaviour {
     Rigidbody body;
     Material mat;
     
-    public ScoreBoard scoreBoard;
-    public RoundManager roundManager;
+    public GameManager gameManager;
 
     RamSmokeController ramSmokeController;
     Bumper bumper;
@@ -87,8 +86,7 @@ public class CarModel : MonoBehaviour {
         body = GetComponent<Rigidbody>() as Rigidbody;
         mat = GetComponent<Material>() as Material;
 
-        scoreBoard = FindObjectOfType<ScoreBoard>() as ScoreBoard;
-        roundManager = FindObjectOfType<RoundManager>() as RoundManager;
+        gameManager = FindObjectOfType<GameManager>() as GameManager;
 
         engineSound = GetComponents<AudioSource>().GetValue(0) as AudioSource;
         ramSound = GetComponents<AudioSource>().GetValue(1) as AudioSource;
@@ -301,11 +299,11 @@ public class CarModel : MonoBehaviour {
     {
         if (lastHitByPlayer == -1)
         { //If this is a suicide
-            scoreBoard.SubtractPoint(playerNumber);
+            gameManager.SubtractPoint(playerNumber);
         }
         else
         {
-            scoreBoard.AddPoint(lastHitByPlayer);
+            gameManager.AddPoint(lastHitByPlayer);
         }
     }
 
@@ -336,7 +334,7 @@ public class CarModel : MonoBehaviour {
     {
         if(Input.GetAxis(steerAxis) != 0 || Input.GetAxis(accelerateAxis) != 0)
         {
-            roundManager.RegisterPlayer(this.playerNumber);
+            gameManager.RegisterPlayer(this.playerNumber);
         }
     }
 

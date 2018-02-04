@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour {
     int roundWinner = -1;
     int tournamentWinner = -1;
 
+    public bool[] playerJoined = { false, false, false, false };
+
     Canvas mainMenu;
     Canvas readyRoom;
     Canvas roundScoreBoard;
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour {
     private bool anyKeyLocked = false;
 
     private GameState gameState;
+
     // Use this for initialization
     void Start () {
         gameState = GameState.MAIN_MENU;
@@ -60,6 +63,7 @@ public class GameManager : MonoBehaviour {
     {
         HideAllCanvases();
         ResetTournamentScores();
+        DeRegisterAllPlayers();
         this.tournamentWinner = -1;
         gameState = GameState.MAIN_MENU;
         mainMenu.enabled = true;
@@ -210,6 +214,16 @@ public class GameManager : MonoBehaviour {
         tournamentOverText.text = "Tournament winner is " + (this.tournamentWinner + 1).ToString();
     }
 
+    public void AddPoint(int playerNumber)
+    {
+        ChangeScore(playerNumber, 1);
+    }
+
+    public void SubtractPoint(int playerNumber)
+    {
+        ChangeScore(playerNumber, -1);
+    }
+
     void ChangeScore(int player, int change)
     {
         if (player >= 0 && player <= 3)
@@ -267,5 +281,18 @@ public class GameManager : MonoBehaviour {
     private void UnlockAnyKey()
     {
         this.anyKeyLocked = false;
+    }
+
+    public void RegisterPlayer(int playerNumber)
+    {
+        playerJoined[playerNumber] = true;
+    }
+
+    private void DeRegisterAllPlayers()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            this.playerJoined[i] = false;
+        }
     }
 }
