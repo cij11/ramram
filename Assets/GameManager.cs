@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
     Canvas tournamentOver;
 
     RoundScoreboard roundScoreboardScript;
+    RoundScoreboard roundOverScoreboardScript;
 
     Text roundOverText;
     Text tournamentOverText;
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour {
 
         roundOver = this.transform.GetChild(3).GetComponent<Canvas>() as Canvas;
         roundOverText = this.transform.GetChild(3).GetChild(0).GetComponent<Text>() as Text;
+        roundOverScoreboardScript = this.transform.GetChild(3).GetComponent<RoundScoreboard>() as RoundScoreboard;
 
         tournamentOver = this.transform.GetChild(4).GetComponent<Canvas>() as Canvas;
         tournamentOverText = this.transform.GetChild(4).GetChild(0).GetComponent<Text>() as Text;
@@ -182,7 +184,7 @@ public class GameManager : MonoBehaviour {
                 }
             case GameState.ROUND_OVER:
                 {
-                    UpdateRoundOverText();
+                    UpdateRoundOverScoreboard();
 
                     if (AnyKey())
                     {
@@ -215,9 +217,34 @@ public class GameManager : MonoBehaviour {
         roundScoreboardScript.SetScores(this.roundScores);
     }
 
-    void UpdateRoundOverText()
+    void UpdateRoundOverScoreboard()
     {
-        roundOverText.text = "Round winner is " + (this.roundWinner + 1).ToString();
+        roundOverText.text = "Player " + (this.roundWinner + 1).ToString() + " wins the Round!";
+
+        switch(this.roundWinner)
+        {
+            case (0): {
+                    roundOverText.color = Color.red;
+                    break;
+                }
+            case (1):
+                {
+                    roundOverText.color = Color.blue;
+                    break;
+                }
+            case (2):
+                {
+                    roundOverText.color = Color.green;
+                    break;
+                }
+            case (3):
+                {
+                    roundOverText.color = Color.yellow;
+                    break;
+                }
+        }
+
+        roundOverScoreboardScript.SetScores(this.tournamentScores);
     }
 
     void UpdateTournamentOverText()
