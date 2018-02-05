@@ -96,6 +96,7 @@ public class CarModel : MonoBehaviour {
 
         ramSmokeController = GetComponentInChildren<RamSmokeController>() as RamSmokeController;
 
+        engineSound.volume = 0.0f;
         engineSound.Play();
 
         bumper = GetComponentInChildren<Bumper>() as Bumper;
