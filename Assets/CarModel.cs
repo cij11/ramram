@@ -48,7 +48,7 @@ public class CarModel : MonoBehaviour {
 
     float rammingSpeed = 30f;
     float ramTimer = -1f;
-    float ramCooldown = 1.0f;
+    float ramCooldown = 3.0f;
 
     float timeSinceForwardPressed = 0.0f;
     float oldTimeSinceForwardPressed = 1.0f;
