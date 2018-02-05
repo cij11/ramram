@@ -81,6 +81,9 @@ public class CarModel : MonoBehaviour {
     private float maxPowerupTimer = 5f;
     private float powerupTimer = 0f;
 
+    float platformContactTimer = 10f;
+    float platformContactForgiveness = 0.1f;
+
     // Use this for initialization
     void Start () {
         body = GetComponent<Rigidbody>() as Rigidbody;
@@ -133,8 +136,7 @@ public class CarModel : MonoBehaviour {
     void CheckGrounded()
     {
         this.grounded = false;
-
-        if (this.transform.position.y > groundLevel - groundedRange && this.transform.position.y < groundLevel + groundedRange)
+        if (this.platformContactTimer < this.platformContactForgiveness)
         {
             this.grounded = true;
         }
@@ -445,6 +447,15 @@ public class CarModel : MonoBehaviour {
             {
                 RemovePowerups();
             }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        GameObject hit = collision.gameObject;
+        if (hit.tag == "platform")
+        {
+            platformContactTimer = 0.0f;
         }
     }
 }
