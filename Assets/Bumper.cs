@@ -7,7 +7,7 @@ public class Bumper : MonoBehaviour {
 	float reboundSpeed = 500f;
     float collisionPower = 50f;
     float defaultCollisionPower = 50f;
-    float boostedCollisionPower = 100f;
+    float boostedCollisionPower = 200f;
 
 	float minimumCollisionSpeed = 1000f;
     int playerNumber = 0;
