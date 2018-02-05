@@ -6,6 +6,8 @@ public class OilSpill : MonoBehaviour {
     float maxLifespan = 10f;
     float lifespanTimer = 0f;
 
+    public bool isGlue = false;
+
     public bool hasLifespan = true;
 	// Use this for initialization
 	void Start () {
@@ -36,7 +38,14 @@ public class OilSpill : MonoBehaviour {
 
         if (otherCar != null)
         {
-            otherCar.SetSliding(true);
+            if (!isGlue)
+            {
+                otherCar.SetSliding(true);
+            }
+            else
+            {
+                otherCar.SetStuck(true);
+            }
         }
     }
 }

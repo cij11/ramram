@@ -75,6 +75,7 @@ public class CarModel : MonoBehaviour {
 
     bool sliding = false;
     Vector3 slideDirection = new Vector3(1, 0, 0);
+    bool stuck = false;
 
     private PowerupType activePower;
     private bool poweredUp = false;
@@ -134,6 +135,12 @@ public class CarModel : MonoBehaviour {
         }
         //Prevent sliding if 'OnTriggerExit' is not detected.
         this.sliding = false;
+
+        if (this.stuck)
+        {
+            body.velocity = body.velocity * 0.5f;
+        }
+        this.stuck = false;
     }
 
     void CheckGrounded()
@@ -391,9 +398,11 @@ public class CarModel : MonoBehaviour {
         }
 
             this.slideDirection = currentDirection.normalized;
+    }
 
-
-
+    public void SetStuck(bool isStuck)
+    {
+        this.stuck = isStuck;
     }
 
     public void ApplyPowerup(PowerupType powerup)

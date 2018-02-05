@@ -398,7 +398,7 @@ Prefab:
     - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
         type: 2}
       propertyPath: spawnables.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4885569799363620, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
       propertyPath: m_LocalPosition.x
@@ -465,6 +465,12 @@ Prefab:
       propertyPath: m_Name
       value: Spawner - hazards
       objectReference: {fileID: 0}
+    - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
+        type: 2}
+      propertyPath: spawnables.Array.data[4]
+      value: 
+      objectReference: {fileID: 1951819778969582, guid: 5f6f2cdd786685e49a8410e2596d747b,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
   m_IsPrefabParent: 0
@@ -547,7 +553,7 @@ Prefab:
     - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
         type: 2}
       propertyPath: spawnables.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4885569799363620, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
       propertyPath: m_LocalPosition.x
@@ -613,6 +619,12 @@ Prefab:
       propertyPath: spawnables.Array.data[3]
       value: 
       objectReference: {fileID: 1503537660230132, guid: 79634f6eabd0b5045aa39154191bb5d5,
+        type: 2}
+    - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
+        type: 2}
+      propertyPath: spawnables.Array.data[4]
+      value: 
+      objectReference: {fileID: 1951819778969582, guid: 5f6f2cdd786685e49a8410e2596d747b,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
@@ -763,7 +775,7 @@ Prefab:
     - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
         type: 2}
       propertyPath: spawnables.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4885569799363620, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
       propertyPath: m_LocalPosition.x
@@ -829,6 +841,12 @@ Prefab:
       propertyPath: spawnables.Array.data[3]
       value: 
       objectReference: {fileID: 1503537660230132, guid: 79634f6eabd0b5045aa39154191bb5d5,
+        type: 2}
+    - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
+        type: 2}
+      propertyPath: spawnables.Array.data[4]
+      value: 
+      objectReference: {fileID: 1951819778969582, guid: 5f6f2cdd786685e49a8410e2596d747b,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
