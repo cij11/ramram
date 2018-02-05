@@ -774,9 +774,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f8e9fda2624eb48b318436cf3528bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreBoard: {fileID: 0}
-  roundManager: {fileID: 0}
+  gameManager: {fileID: 0}
   enginePower: 30
+  defaultEnginePower: 30
+  speedyEnginePower: 50
   turnPower: 9
   maxTurnSpeed: 5
   playerNumber: 1
