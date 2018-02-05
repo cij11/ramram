@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour {
         }
 
         ResetRoundScores();
+        UpdateRoundScoreboard();
 
         gameState = GameState.ROUND_PLAYING;
         roundScoreBoard.enabled = true;
