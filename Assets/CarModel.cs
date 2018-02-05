@@ -135,6 +135,8 @@ public class CarModel : MonoBehaviour {
 
     void CheckGrounded()
     {
+        this.platformContactTimer += Time.deltaTime;
+
         this.grounded = false;
         if (this.platformContactTimer < this.platformContactForgiveness)
         {
@@ -453,9 +455,26 @@ public class CarModel : MonoBehaviour {
     private void OnCollisionStay(Collision collision)
     {
         GameObject hit = collision.gameObject;
+        //Is this a platform?
         if (hit.tag == "platform")
         {
-            platformContactTimer = 0.0f;
+            // Is this the flat upper surface of the platform?
+            bool flatSurface = false;
+
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                print("Platform point = " + contact.point.y);
+                print("Body point = " + body.transform.position.y);
+
+                if (contact.point.y < body.transform.position.y - 0.1f)
+                {
+                    flatSurface = true;
+                }
+            }
+
+            if (flatSurface) {
+                platformContactTimer = 0.0f;
+            }
         }
     }
 }
