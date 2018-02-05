@@ -6,7 +6,7 @@ public class CanvasManager : MonoBehaviour {
 
     CanvasGroup canvasGroup;
     Canvas canvas;
-    float fadeTime = 1.0f;
+    public float fadeTime = 1.0f;
     float elapsedTime = 0.0f;
 
 	// Use this for initialization
