@@ -130,8 +130,10 @@ public class CarModel : MonoBehaviour {
 
         if(this.sliding)
         {
-            body.AddForce(this.slideDirection * enginePower);
+            body.AddForce(this.slideDirection * enginePower * 2);
         }
+        //Prevent sliding if 'OnTriggerExit' is not detected.
+        this.sliding = false;
     }
 
     void CheckGrounded()

@@ -39,14 +39,4 @@ public class OilSpill : MonoBehaviour {
             otherCar.SetSliding(true);
         }
     }
-
-    private void OnTriggerExit(Collider collider)
-    {
-        CarModel otherCar = collider.GetComponent<CarModel>() as CarModel;
-
-        if (otherCar != null)
-        {
-            otherCar.SetSliding(false);
-        }
-    }
 }
