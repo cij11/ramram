@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour {
     Canvas roundOver;
     Canvas tournamentOver;
 
+    CanvasManager mainMenuManager;
+    CanvasManager readyRoomManager;
+    CanvasManager roundScoreBoardManager;
+    CanvasManager roundOverManager;
+
     RoundScoreboard roundScoreboardScript;
     RoundScoreboard roundOverScoreboardScript;
 
@@ -49,30 +54,38 @@ public class GameManager : MonoBehaviour {
         gameState = GameState.MAIN_MENU;
 
         mainMenu = this.transform.GetChild(0).GetComponent<Canvas>() as Canvas;
+        mainMenuManager = this.transform.GetChild(0).GetComponent<CanvasManager>() as CanvasManager;
+
         readyRoom = this.transform.GetChild(1).GetComponent<Canvas>() as Canvas;
+        readyRoomManager = this.transform.GetChild(1).GetComponent<CanvasManager>() as CanvasManager;
 
         roundScoreBoard = this.transform.GetChild(2).GetComponent<Canvas>() as Canvas;
         roundScoreboardScript = this.transform.GetChild(2).GetComponent<RoundScoreboard>() as RoundScoreboard;
+        roundScoreBoardManager = this.transform.GetChild(2).GetComponent<CanvasManager>() as CanvasManager;
 
         roundOver = this.transform.GetChild(3).GetComponent<Canvas>() as Canvas;
         roundOverText = this.transform.GetChild(3).GetChild(0).GetComponent<Text>() as Text;
         roundOverScoreboardScript = this.transform.GetChild(3).GetComponent<RoundScoreboard>() as RoundScoreboard;
+        roundOverManager = this.transform.GetChild(3).GetComponent<CanvasManager>() as CanvasManager;
 
         tournamentOver = this.transform.GetChild(4).GetComponent<Canvas>() as Canvas;
         tournamentOverText = this.transform.GetChild(4).GetChild(0).GetComponent<Text>() as Text;
+
+        HideAllCanvases();
 
         TransitionMainMenu();
     }
 
     void TransitionMainMenu()
     {
-        HideAllCanvases();
         ResetTournamentScores();
         DeRegisterAllPlayers();
         this.tournamentWinner = -1;
         SceneManager.LoadScene("menus");
         gameState = GameState.MAIN_MENU;
         mainMenu.enabled = true;
+
+        mainMenuManager.SetVisible(true);
     }
 
     void ResetTournamentScores()
@@ -85,9 +98,11 @@ public class GameManager : MonoBehaviour {
 
     void TransitionReadyRoom()
     {
-        HideAllCanvases();
         gameState = GameState.READY_ROOM;
         readyRoom.enabled = true;
+
+        readyRoomManager.SetVisible(true);
+
     }
 
     void TransitionRoundPlaying()
@@ -103,9 +118,10 @@ public class GameManager : MonoBehaviour {
 
         ResetRoundScores();
 
-        HideAllCanvases();
         gameState = GameState.ROUND_PLAYING;
         roundScoreBoard.enabled = true;
+
+        roundScoreBoardManager.SetVisible(true);
     }
 
     void LoadRandomScene()
@@ -125,14 +141,14 @@ public class GameManager : MonoBehaviour {
 
     void TransitionRoundOver()
     {
-        HideAllCanvases();
         gameState = GameState.ROUND_OVER;
         roundOver.enabled = true;
+
+        roundOverManager.SetVisible(true);
     }
 
     void TransitionTournamentOver()
     {
-        HideAllCanvases();
         gameState = GameState.TOURNAMENT_OVER;
         roundOver.enabled = true;
     }
@@ -155,6 +171,7 @@ public class GameManager : MonoBehaviour {
                 {
                     if(AnyKey())
                     {
+                        mainMenuManager.SetVisible(false);
                         TransitionReadyRoom();
                     }
                     break;
@@ -163,6 +180,7 @@ public class GameManager : MonoBehaviour {
                 {
                     if (AnyKey())
                         {
+                        readyRoomManager.SetVisible(false);
                         TransitionRoundPlaying();
                     }
                     break;
@@ -178,6 +196,7 @@ public class GameManager : MonoBehaviour {
                     if (Input.GetKeyDown(KeyCode.Alpha3))
 
                     {
+                        roundScoreBoardManager.SetVisible(false);
                         TransitionRoundOver();
                     }
 
@@ -195,6 +214,7 @@ public class GameManager : MonoBehaviour {
                             TransitionTournamentOver();
                         } else
                         {
+                            roundOverManager.SetVisible(false);
                             TransitionRoundPlaying();
                         }
                         
@@ -282,6 +302,7 @@ public class GameManager : MonoBehaviour {
                 this.tournamentWinner = player;
             }
 
+            roundScoreBoardManager.SetVisible(false);
             TransitionRoundOver();
         }
     }
