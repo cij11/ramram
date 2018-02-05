@@ -464,12 +464,24 @@ public class CarModel : MonoBehaviour {
                 if (contact.point.y < body.transform.position.y - 0.1f)
                 {
                     flatSurface = true;
+                    SetAirborne(true);
                 }
             }
 
             if (flatSurface) {
                 platformContactTimer = 0.0f;
             }
+        }
+    }
+
+    public void SetAirborne(bool airborne)
+    {
+        if(airborne)
+        {
+            body.drag = 0.1f;
+        } else
+        {
+            body.drag = 1.0f;
         }
     }
 }

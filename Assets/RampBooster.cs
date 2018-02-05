@@ -18,9 +18,6 @@ public class RampBooster : MonoBehaviour {
 
     private void OnTriggerStay(Collider collider)
     {
-
-        print("Ramp collision detected");
-
         Rigidbody otherBody = collider.attachedRigidbody;
 
         Vector3 rampDirection = this.transform.forward;
@@ -30,6 +27,13 @@ public class RampBooster : MonoBehaviour {
         if (dotProduct > 1)
         {
             otherBody.velocity = rampDirection * boostSpeed;
+
+            CarModel otherCar = collider.GetComponent<CarModel>() as CarModel;
+
+            if (otherCar != null)
+            {
+                otherCar.SetAirborne(true);
+            }
         }
     }
 
