@@ -50,8 +50,9 @@ public class GameManager : MonoBehaviour {
 
     private GameState gameState;
 
-    private float menuPersistTimerMax = 2.0f;
-    private float menuPersistTimer = 0.0f;
+    private bool stateLocked = false;
+    private float tournamentOverLockTimer = 2.0f;
+    private float roundOverLockTimer = 1.0f;
 
     // Use this for initialization
     void Start () {
@@ -148,6 +149,7 @@ public class GameManager : MonoBehaviour {
     {
         gameState = GameState.ROUND_OVER;
         roundOver.enabled = true;
+        LockStateTransistion(this.roundOverLockTimer);
 
         roundOverManager.SetVisible(true);
     }
@@ -156,6 +158,7 @@ public class GameManager : MonoBehaviour {
     {
         gameState = GameState.TOURNAMENT_OVER;
         tournamentOver.enabled = true;
+        LockStateTransistion(this.tournamentOverLockTimer);
 
         tournamentOverManager.SetVisible(true);
     }
@@ -214,7 +217,7 @@ public class GameManager : MonoBehaviour {
                     string roundOverMessage = "Player " + (this.roundWinner + 1).ToString() + " wins the Round!";
                     UpdateRoundOverScoreboard(roundOverMessage, this.roundWinner);
 
-                    if (AnyKey())
+                    if (AnyKey() && !this.stateLocked)
                     {
                         if (this.tournamentWinner > -1)
                         {
@@ -236,7 +239,7 @@ public class GameManager : MonoBehaviour {
                     tournamentOverText.color = PlayerToColor(this.tournamentWinner);
 
 
-                    if (AnyKey())
+                    if (AnyKey() && !this.stateLocked)
                     {
                         tournamentOverManager.SetVisible(false);
                         TransitionMainMenu();
@@ -375,5 +378,15 @@ public class GameManager : MonoBehaviour {
         {
             this.playerJoined[i] = false;
         }
+    }
+
+    private void LockStateTransistion(float lockDuration)
+    {
+        this.stateLocked = true;
+        Invoke("UnlockStateTransition", lockDuration);
+    }
+    private void UnlockStateTransition()
+    {
+        this.stateLocked = false;
     }
 }
