@@ -1238,8 +1238,8 @@ MonoBehaviour:
   levelToLoad: 2
   roundScores: 00000000000000000000000000000000
   tournamentScores: 00000000000000000000000000000000
-  roundLimit: 2
-  tournamentLimit: 2
+  roundLimit: 5
+  tournamentLimit: 5
   playerJoined: 00000000
 --- !u!224 &1711963731 stripped
 RectTransform:
