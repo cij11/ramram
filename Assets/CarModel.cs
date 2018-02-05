@@ -464,7 +464,7 @@ public class CarModel : MonoBehaviour {
                 if (contact.point.y < body.transform.position.y - 0.1f)
                 {
                     flatSurface = true;
-                    SetAirborne(true);
+                    SetAirborne(false);
                 }
             }
 
