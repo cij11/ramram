@@ -661,7 +661,8 @@ AudioSource:
   m_GameObject: {fileID: 1260973099339236}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24301952, guid: 0ac7fb39e445048d89688f69c2a1839a,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: d8aef97841becbb49be3850be9f1c6b4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -761,9 +762,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f8e9fda2624eb48b318436cf3528bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreBoard: {fileID: 0}
-  roundManager: {fileID: 0}
+  gameManager: {fileID: 0}
   enginePower: 30
+  defaultEnginePower: 30
+  speedyEnginePower: 50
   turnPower: 9
   maxTurnSpeed: 5
   playerNumber: 2
