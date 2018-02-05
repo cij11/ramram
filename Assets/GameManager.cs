@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour {
     CanvasManager readyRoomManager;
     CanvasManager roundScoreBoardManager;
     CanvasManager roundOverManager;
+    CanvasManager tournamentOverManager;
 
     RoundScoreboard roundScoreboardScript;
     RoundScoreboard roundOverScoreboardScript;
@@ -48,6 +49,9 @@ public class GameManager : MonoBehaviour {
     private bool anyKeyLocked = false;
 
     private GameState gameState;
+
+    private float menuPersistTimerMax = 2.0f;
+    private float menuPersistTimer = 0.0f;
 
     // Use this for initialization
     void Start () {
@@ -69,7 +73,8 @@ public class GameManager : MonoBehaviour {
         roundOverManager = this.transform.GetChild(3).GetComponent<CanvasManager>() as CanvasManager;
 
         tournamentOver = this.transform.GetChild(4).GetComponent<Canvas>() as Canvas;
-        tournamentOverText = this.transform.GetChild(4).GetChild(0).GetComponent<Text>() as Text;
+        tournamentOverText = this.transform.GetChild(4).GetChild(1).GetComponent<Text>() as Text;
+        tournamentOverManager = this.transform.GetChild(4).GetComponent<CanvasManager>() as CanvasManager;
 
         HideAllCanvases();
 
@@ -150,7 +155,9 @@ public class GameManager : MonoBehaviour {
     void TransitionTournamentOver()
     {
         gameState = GameState.TOURNAMENT_OVER;
-        roundOver.enabled = true;
+        tournamentOver.enabled = true;
+
+        tournamentOverManager.SetVisible(true);
     }
 
     void HideAllCanvases()
@@ -211,6 +218,7 @@ public class GameManager : MonoBehaviour {
                     {
                         if (this.tournamentWinner > -1)
                         {
+                            roundOverManager.SetVisible(false);
                             TransitionTournamentOver();
                         } else
                         {
@@ -224,10 +232,13 @@ public class GameManager : MonoBehaviour {
             case GameState.TOURNAMENT_OVER:
                 {
                     string tournamentOverMessage = "Player " + (this.tournamentWinner + 1).ToString() + " wins the Tournament!";
-                    UpdateRoundOverScoreboard(tournamentOverMessage, this.tournamentWinner);
+                    tournamentOverText.text = tournamentOverMessage;
+                    tournamentOverText.color = PlayerToColor(this.tournamentWinner);
+
 
                     if (AnyKey())
                     {
+                        tournamentOverManager.SetVisible(false);
                         TransitionMainMenu();
                     }
                     break;
@@ -244,30 +255,38 @@ public class GameManager : MonoBehaviour {
     {
         roundOverText.text = scoreboardMessage;
 
-        switch (winner)
+        roundOverText.color = PlayerToColor(winner);
+
+        roundOverScoreboardScript.SetScores(this.tournamentScores);
+    }
+
+    private Color PlayerToColor(int playerNumber)
+    {
+        switch (playerNumber)
         {
-            case (0): {
-                    roundOverText.color = Color.red;
+            case (0):
+                {
+                    return Color.red;
                     break;
                 }
             case (1):
                 {
-                    roundOverText.color = Color.blue;
+                    return Color.blue;
                     break;
                 }
             case (2):
                 {
-                    roundOverText.color = Color.green;
+                    return Color.green;
                     break;
                 }
             case (3):
                 {
-                    roundOverText.color = Color.yellow;
+                    return Color.yellow;
                     break;
                 }
+            default:
+                return Color.white;
         }
-
-        roundOverScoreboardScript.SetScores(this.tournamentScores);
     }
 
     void UpdateTournamentOverText()
