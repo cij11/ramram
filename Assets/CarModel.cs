@@ -382,8 +382,14 @@ public class CarModel : MonoBehaviour {
         this.sliding = isSliding;
 
         Vector3 currentDirection = body.velocity;
+        if(currentDirection.magnitude < 0.01f)
+        {
+            currentDirection = new Vector3(1f, 0f, 1f);
+        }
 
             this.slideDirection = currentDirection.normalized;
+
+
 
     }
 
