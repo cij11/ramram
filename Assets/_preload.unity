@@ -1235,7 +1235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadRandomly: 1
-  levelToLoad: 2
+  levelToLoad: 0
   roundScores: 00000000000000000000000000000000
   tournamentScores: 00000000000000000000000000000000
   roundLimit: 5

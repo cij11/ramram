@@ -478,7 +478,7 @@ Prefab:
     - target: {fileID: 114136981578700974, guid: 75db7ef58d1a62f45959a887feac493f,
         type: 2}
       propertyPath: spawnables.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4885569799363620, guid: 75db7ef58d1a62f45959a887feac493f, type: 2}
       propertyPath: m_LocalPosition.x

@@ -408,15 +408,10 @@ public class CarModel : MonoBehaviour {
 
                 }
                 break;
-            case PowerupType.WIDE:
+            case PowerupType.MEATY:
                 {
-                    SetGraphicAndBumperScale(2);
-                }
-                break;
-            case PowerupType.SUPERRAM:
-                {
+                    SetGraphicAndBumperScale(2, 2);
                     bumper.setBoostedCollisionPower(true);
-                    SetGraphicHeight(2);
                 }
                 break;
         }
@@ -425,25 +420,18 @@ public class CarModel : MonoBehaviour {
     private void RemovePowerups()
     {
         this.enginePower = this.defaultEnginePower;
-        SetGraphicAndBumperScale(1);
+        SetGraphicAndBumperScale(1, 1);
         bumper.setBoostedCollisionPower(false);
-        SetGraphicHeight(1);
     }
 
-    private void SetGraphicAndBumperScale(float scale)
+    private void SetGraphicAndBumperScale(float width, float height)
     {
         Transform car_full = this.transform.GetChild(0);
-        car_full.transform.localScale = new Vector3(scale, 1f, 1f);
+        car_full.transform.localScale = new Vector3(width, height, 1f);
 
         Transform bumper = this.transform.GetChild(1);
         SphereCollider bumperCollider = bumper.GetComponent<SphereCollider>() as SphereCollider;
-        bumperCollider.radius = 0.8f * scale;
-    }
-
-    private void SetGraphicHeight(float scale)
-    {
-        Transform car_full = this.transform.GetChild(0);
-        car_full.transform.localScale = new Vector3(1f, scale, 1f);
+        bumperCollider.radius = 0.8f * width;
     }
 
     private void ManagePowerupTimers()

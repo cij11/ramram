@@ -5,13 +5,12 @@ using UnityEngine;
 public enum PowerupType
 {
     SPEEDY,
-    SUPERRAM,
-    WIDE
+    MEATY
 }
 
 public class Pickup : MonoBehaviour
 {
-    public PowerupType powerupType = PowerupType.WIDE;
+    public PowerupType powerupType = PowerupType.MEATY;
     // Use this for initialization
     void Start()
     {
