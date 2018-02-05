@@ -1234,7 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daadaacada4904b42b7078868c4e8327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadRandomly: 0
+  loadRandomly: 1
   levelToLoad: 2
   roundScores: 00000000000000000000000000000000
   tournamentScores: 00000000000000000000000000000000
